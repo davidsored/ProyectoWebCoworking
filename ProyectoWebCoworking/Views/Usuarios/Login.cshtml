@@ -1,4 +1,5 @@
 ﻿@{
+    ViewData["Title"] = "Iniciar Sesión";
     Layout = "_Layout";
 }
 
@@ -7,20 +8,27 @@
 <div class="row">
     <div class="col-md-4 offset-md-4">
 
-        <form>
+        <form asp-controller="Usuarios" asp-action="Login" method="post">
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.Error
+                </div>
+            }
+
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" />
+                <label for="Email" class="form-label">Email</label>
+                <input type="email" name="Email" class="form-control" id="Email" placeholder="ejemplo@correo.com" required autocomplete="username" />
             </div>
 
             <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" />
+                <label for="Password" class="form-label">Contraseña</label>
+                <input type="password" name="Password" class="form-control" id="Password" required autocomplete="current-password" />
             </div>
 
             <hr />
 
-            <button type="submint" class="btn btn-success">Acceder</button>
+            <button type="submit" class="btn btn-success">Acceder</button>
         </form>
 
     </div>

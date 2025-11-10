@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ProyectoWebCoworking.Models.Recurso>
+@{
+	ViewData["Title"] = "Gestionar Recursos";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Gestión de Recursos</h1>
+
+<p>
+	<a asp-action="Create" class="btn btn-primary">Crear Nuevo Recurso</a>
+</p>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Nombre)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Tipo)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Capacidad)
+			</th>
+			<th>
+
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Nombre)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Tipo)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Capacidad)
+				</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Editar</a> |
+					<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detalles</a> |
+					<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Eliminar</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

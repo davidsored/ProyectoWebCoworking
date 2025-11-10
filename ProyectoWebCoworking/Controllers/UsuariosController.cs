@@ -1,17 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProyectoWebCoworking.Models;
 using BCrypt.Net;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
 
 namespace ProyectoWebCoworking.Controllers
 {
     public class UsuariosController : Controller
     {
+        //Establecemos la inyección nde dependecia con la base de datos
         private readonly coworking_dbContext _context;
 
         public UsuariosController(coworking_dbContext context)
         {
             _context = context;
         }
+
+        #region Registro
 
         //El método Get se utiliza para mostrar el formulario de registro
         [HttpGet]
@@ -22,8 +29,12 @@ namespace ProyectoWebCoworking.Controllers
 
         //El método Post de utiliza para recibir los datos del formulario de registro
         [HttpPost]
-        public IActionResult Registro(Usuario usuario)
+        public IActionResult Registro([Bind("Nombre", "Email", "Password", "Teléfono")] Usuario usuario)
         {
+            ModelState.Remove("Rol");
+            ModelState.Remove("ContraseñaHash");
+
+
             if (ModelState.IsValid)
             {
                 //Haseamos la contraseña
@@ -38,6 +49,9 @@ namespace ProyectoWebCoworking.Controllers
 
             return View(usuario);
         }
+        #endregion
+
+        #region Login
 
         //El metodo Get se utuliza para mostrar la página o formulario de login
         [HttpGet]
@@ -47,7 +61,7 @@ namespace ProyectoWebCoworking.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string Email, string Password)
+        public async Task<IActionResult> Login(string Email, string Password)
         {
             //Buscamos al usuario por su Email
             var usuario = _context.Usuarios.FirstOrDefault(u => u.Email == Email);
@@ -55,14 +69,44 @@ namespace ProyectoWebCoworking.Controllers
             //Comprobamos que el usuario existe y la contraseña es correcta
             if ( usuario != null && BCrypt.Net.BCrypt.Verify(Password, usuario.ContraseñaHash))
             {
+                //Creamos la lista de datos clave del usuario
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+                    new Claim(ClaimTypes.Name, usuario.Nombre),
+                    new Claim(ClaimTypes.Email, usuario.Email),
+                    new Claim(ClaimTypes.Role, usuario.Rol)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true //Casilla de Recordarme
+                };
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.Email = "Email o contraseña incorrectos";
+            ViewBag.Error = "Email o contraseña incorrectos";
             return View();
         }
+        #endregion
+
+        #region Logout
         
-        
+        //Creamos el cierre de sesión
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Home");  
+        }
+
+        #endregion 
+
         public IActionResult Index()
         {
             return View(); 

@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoWebCoworking.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoWebCoworking.Controllers
 {
@@ -18,6 +19,7 @@ namespace ProyectoWebCoworking.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
@@ -27,6 +29,12 @@ namespace ProyectoWebCoworking.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Authorize(Roles = "Administrador")]
+        public IActionResult AdminPanel() 
+        {
+            return View();
         }
     }
 }

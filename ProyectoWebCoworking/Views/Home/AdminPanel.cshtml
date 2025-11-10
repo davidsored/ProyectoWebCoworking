@@ -1,0 +1,32 @@
+﻿@{
+	ViewData["Title"] = "Panel de Administración";
+}
+
+<h1 class="display-4">Panel de Administración</h1>
+<p class="lead">Bienvenido, @User.Identity.Name. Desde aquí puedes gestionar el contenido de la web.</p>
+
+<hr />
+
+<div class="row">
+
+	<div class="col-md-4">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Gestión de Recursos</h5>
+				<p class="card-text">Administra las salas, puestos fijos, puestos flexibles y otros recursos del coworking.</p>
+				<a asp-controller="Recursos" asp-action="Index" class="btn btn-primary">Gestionar Recursos</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<div class="card bg-light">
+			<div class="card-body">
+				<h5 class="card-title">Gestión de Usuarios</h5>
+				<p class="card-text">Administra los roles y datos de los usuarios registrados.</p>
+				<a href="#" class="btn btn-secondary disabled">Gestionar Usuarios</a>
+			</div>
+		</div>
+	</div>
+
+</div>

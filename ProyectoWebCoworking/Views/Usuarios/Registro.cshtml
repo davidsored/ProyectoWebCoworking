@@ -1,33 +1,38 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ProyectoWebCoworking.Models.Usuario
 @{
     Layout = "_Layout";
+    ViewData["Title"] = "Registro de Usuario";
 }
 
 <h2 class="text-center">Formulario de Registro</h2>
 
 <div class="row">
     <div class="col-md-4 offset-md-4">
-        <form>
-            <div classab="mb-3">
-                <label for="nombre" class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" id="nombre" placeholder="Tu nombre y apellidos" />
+        <form asp-controller="Usuarios" asp-action="Registro" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label">Nombre Completo</label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label for="email" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" />
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="ejemplo@correo.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label for="password" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" />
+                <label asp-for="Password" class="form-label">Contraseña</label>
+                <input asp-for="Password" class="form-control" type="password" autocomplete="new-password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="tel" class="form-control" id="telefono" />
+                <label asp-for="Teléfono" class="form-label">Teléfono</label>
+                <input asp-for="Teléfono" class="form-control" />
+                <span asp-validation-for="Teléfono" class="text-danger"></span>
             </div>
 
             <hr />
