@@ -1,0 +1,42 @@
+﻿@model ProyectoWebCoworking.Models.Recurso
+@{
+	ViewData["Title"] = "Editar Recurso";
+}
+
+<h1>Editar Recurso</h1>
+<hr />
+
+<div class="row">
+	<div class=" col-md-6">
+
+		<form asp-action="Edit" method="post">
+
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+			<input type="hidden" asp-for="Id" />
+
+			<div class="mb-3">
+				<label asp-for="Nombre" class="form-label"></label>
+				<input asp-for="Nombre" class="form-control" />
+				<span asp-validation-for="Nombre" class="text-danger"></span>
+			</div>
+
+			<div class="mb-3">
+				<label asp-for="Tipo" class="form-label"></label>
+				<input asp-for="Tipo" class="form-control" placeholder="Ej: Sala, Puesto Fijo..." />
+				<span asp-validation-for="Tipo" class="text-danger"></span>
+			</div>
+
+			<div class="mb-3">
+				<label asp-for="Capacidad" class="form-label"></label>
+				<input asp-for="Capacidad" class="form-control" type="number" />
+				<span asp-validation-for="Capacidad" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary">Guardar Cambios</button>
+				<a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+			</div>
+		</form>
+	</div>
+</div>

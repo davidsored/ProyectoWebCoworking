@@ -1,0 +1,45 @@
+﻿@model ProyectoWebCoworking.Models.Recurso
+@{
+	ViewData["Title"] = "Eliminar Recurso";
+}
+
+<h1 class="text-danger">Eliminar Recurso</h1>
+<h3>¿Estás seguro de que quieres eliminar este recurso?</h3>
+<hr />
+
+<div>
+	<h4>Detalles del Recurso:</h4>
+
+	<dl class="row">
+		<dt class="col-sm-3">
+			@Html.DisplayNameFor(model => model.Nombre)
+		</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.Nombre)
+		</dd>
+
+		<dt class="col-sm-3">
+			@Html.DisplayNameFor(model => model.Tipo)
+		</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.Tipo)
+		</dd>
+
+		<dt class="col-sm-3">
+			@Html.DisplayNameFor(model => model.Capacidad)
+		</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.Capacidad)
+		</dd>
+	</dl>
+
+	<form asp-action="Delete" method="post">
+
+		<input type="hidden" asp-for="Id" />
+
+		<div class="form-group">
+			<button type="submit" class="btn btn-danger">Eliminar</button>
+			<a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+		</div>
+	</form>
+</div>
