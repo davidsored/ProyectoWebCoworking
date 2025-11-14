@@ -1,0 +1,40 @@
+﻿@model ProyectoWebCoworking.Models.Reserva
+@{
+	ViewData["Title"] = "Detalles de la Reserva";
+}
+
+<h1>Detalles de la Reserva</h1>
+<hr />
+
+<div>
+	<h4>Reserva #@Model.Id</h4>
+
+	<dl class="row">
+
+		<dt class="col-sm-3">Usuario:</dt>
+		<dd class="col-sm-9">@Html.DisplayFor(model => model.Usuario.Nombre) (@Html.DisplayFor(model => model.Usuario.Email))</dd>
+
+		<dt class="col-sm-3">Recurso:</dt>
+		<dd class="col-sm-9">@Html.DisplayFor(model => model.Recurso.Nombre)</dd>
+
+		<dt class="col-sm-3">Tarifa Aplicada:</dt>
+		<dd class="col-sm-9">@Html.DisplayFor(model => model.Tarifa.Nombre) (@Model.Tarifa.Precio.ToString("C"))</dd>
+
+		<hr class="my-2" />
+
+		<dt class="col-sm-3">@Html.DisplayNameFor(model => model.FechaHoraInicio):</dt>
+		<dd class0col-sm-9">@Html.DisplayFor(model => model.FechaHoraInicio)</dd>
+
+		<dt class="col-sm-3">@Html.DisplayNameFor(model => model.FechaHoraFin):</dt>
+		<dd class0col-sm-9">@Html.DisplayFor(model => model.FechaHoraFin)</dd>
+
+		<dt class="col-sm-3">@Html.DisplayNameFor(model => model.Estado)</dt>
+		<dd class0col-sm-9">@Html.DisplayFor(model => model.Estado)</dd>
+	</dl>
+</div>
+
+<hr />
+
+<div>
+	<a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</div>

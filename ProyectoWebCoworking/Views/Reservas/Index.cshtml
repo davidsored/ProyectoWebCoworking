@@ -1,0 +1,87 @@
+﻿@model IEnumerable<ProyectoWebCoworking.Models.Reserva>
+@{
+	ViewData["Title"] = "Gestionar Reservas";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Gestión de Reservas</h1>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+
+			<th>Usuario</th>
+			<th>Recurso</th>
+			<th>Inicio</th>
+			<th>Fin
+			</th>
+			<th>@Html.DisplayNameFor(model => model.Estado)</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>@Html.DisplayFor(modelItem => item.Usuario.Nombre)</td>
+				<td>@Html.DisplayFor(modelItem => item.Recurso.Nombre)</td>
+				<td>@Html.DisplayFor(modelItem => item.FechaHoraInicio)</td>
+				<td>@Html.DisplayFor(modelItem => item.FechaHoraFin)</td>
+				<td>@Html.DisplayFor(modelItem => item.Estado)</td>
+				<td>
+					<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detalles</a> |
+					<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalConfirmarBorrado" data-id-reserva="@item.Id" data-nombre-reserva="Reserva de @item.Usuario.Nombre para @item.Recurso.Nombre">Cancelar</button>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<div class="modal fade" id="modalConfirmarBorrado" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalLabel">Confirmar Eliminación</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancelar"></button>
+			</div>
+			<div class="modal-body">
+				<p>¿Estás seguro que deseas eliminar esta reserva?</p>
+				<p class="text-danger"> <strong id="nombreReservaModal"></strong></p>
+				<p class="text-danger">Esta acción no se puede deshacer.</p>
+			</div>
+			<div class="modal-footer">
+				<form asp-action="Delete" method="post">
+					<input type="hidden" name="id" id="idReservaHidden" />
+
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-danger">Eliminar</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		//Esperamos a que la web esté lista
+		$(document).ready(function () {
+
+			//Capturamos el evento "show.bs.modal"
+			$('#modalConfirmarBorrado').on('show.bs.modal', function (event) {
+
+				//"event.relatedTarget" es el botón eliminar
+				var button = $(event.relatedTarget);
+
+				//Extraemos la información de los atributos del botón
+				var id = button.data('id-reserva');
+				var nombre = button.data('nombre-reserva');
+
+				var modal = $(this);
+
+				//Actualizamos el texto del modal con el nombre y el id
+				modal.find('.modal-body #nombreReservaModal').text(nombre);
+				modal.find('.modal-footer #idReservaHidden').val(id);
+			});
+		});
+	</script>
+}

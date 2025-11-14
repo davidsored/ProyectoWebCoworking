@@ -20,11 +20,31 @@
 	</div>
 
 	<div class="col-md-4">
-		<div class="card bg-light">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Gestión de Tarifas</h5>
+				<p class="card-text">Administra los precios y planes asociados a los tipos de recursos</p>
+				<a asp-controller="Tarifas" asp-action="Index" class="btn btn-primary">Gestionar Tarifas</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<div class="card">
 			<div class="card-body">
 				<h5 class="card-title">Gestión de Usuarios</h5>
 				<p class="card-text">Administra los roles y datos de los usuarios registrados.</p>
-				<a href="#" class="btn btn-secondary disabled">Gestionar Usuarios</a>
+				<a asp-controller="Usuarios" asp-action="Index" class="btn btn-primary">Gestionar Usuarios</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Gestión de Reservas</h5>
+				<p class="card-text">Revisa, aprueba o cancela las reservas de los clientes.</p>
+				<a asp-controller="Reservas" asp-action="Index" class="btn btn-primary">Gestionar Reservas</a>
 			</div>
 		</div>
 	</div>

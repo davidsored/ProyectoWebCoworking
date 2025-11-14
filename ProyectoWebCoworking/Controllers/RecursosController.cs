@@ -100,8 +100,29 @@ namespace ProyectoWebCoworking.Controllers
 
         #endregion
 
+        #region Details
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            if(id == 0) 
+            { 
+                return NotFound(); 
+            }
+
+            var recurso = _context.Recursos.Find(id);
+            if (recurso == null)
+            {
+                return NotFound();
+            }
+
+            return View(recurso);
+        }
+
+        #endregion
+
         #region Delete
-               
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         //Llamamos DeleteConfirmed al método para que no entre en conflicto con el método Get

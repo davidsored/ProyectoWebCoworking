@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoWebCoworking.Controllers
 {
@@ -105,11 +106,95 @@ namespace ProyectoWebCoworking.Controllers
             return RedirectToAction("Index", "Home");  
         }
 
-        #endregion 
+        #endregion
 
+        #region Index
+
+        [Authorize(Roles = "Administrador")]
         public IActionResult Index()
         {
-            return View(); 
+            var listaUsarios = _context.Usuarios.ToList();
+
+            return View(listaUsarios); 
         }
+
+        #endregion
+
+        #region EditRol
+
+        [Authorize(Roles = "Administrador")]
+        [HttpGet]
+        public IActionResult EditRol(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            var usuario = _context.Usuarios.Find(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }
+
+        [Authorize(Roles = "Administrador")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditRol(int id, [Bind("Id, Rol")] Usuario usuarioForm)
+        {
+            if (id != usuarioForm.Id)
+            {
+                return NotFound();
+            }
+
+            var usuarioBD = _context.Usuarios.Find(id);
+            if (usuarioBD == null)
+            {
+                return NotFound();
+            }
+
+            ModelState.Remove("Nombre");
+            ModelState.Remove("Email");
+            ModelState.Remove("ContraseñaHash");
+            ModelState.Remove("Password");
+
+            if (ModelState.IsValid) 
+            {
+                //Solo actualizamos el Rol del usuario
+                usuarioBD.Rol = usuarioForm.Rol;
+
+                _context.Update(usuarioBD);
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(usuarioBD); //Si hay un error, redirigimos al formulario
+        }
+
+        #endregion
+
+        #region Delete
+
+        [Authorize(Roles = "Administrador")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmado(int id)
+        {
+            var usuario = _context.Usuarios.Find(id);
+            if (usuario != null) 
+            {
+                _context.Usuarios.Remove(usuario);
+                _context.SaveChanges();
+            }
+            
+            return RedirectToAction(nameof(Index));            
+            
+        }
+
+        #endregion
     }
 }

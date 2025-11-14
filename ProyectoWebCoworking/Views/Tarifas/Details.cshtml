@@ -1,0 +1,39 @@
+﻿@model ProyectoWebCoworking.Models.Tarifa
+@{
+	ViewData["Title"] = "Detalles de la Tarifa";
+}
+
+<h1>Detalles de la Tarifa</h1>
+<hr />
+
+<div>
+	<h4>Tarifa #@Model.Id</h4>
+
+	<dl class="row">
+		<dt class="col-sm-3">
+			@Html.DisplayNameFor(model => model.Nombre)
+		</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.Nombre)
+		</dd>
+
+		<dt class="col-sm-3">
+			@Html.DisplayNameFor(model => model.Precio)
+		</dt>
+		<dd class="col-sm-9">
+			@Model.Precio.ToString("C")
+		</dd>
+
+		<dt class="col-sm-3">
+			@Html.DisplayNameFor(model => model.TipoRecurso)
+		</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.TipoRecurso)
+		</dd>
+	</dl>
+</div>
+
+<hr />
+<div>
+	<a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</div>

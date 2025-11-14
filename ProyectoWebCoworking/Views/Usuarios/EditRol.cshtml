@@ -1,0 +1,38 @@
+﻿@model ProyectoWebCoworking.Models.Usuario
+@{
+	ViewData["Title"] = "Editar Rol de Usuario";
+}
+
+<h1>Editar Rol</h1>
+<hr />
+
+<div class="row">
+	<div class="col-md-6">
+
+		<form asp-action="EditRol" asp-route-id="@Model.Id" method="post">
+
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+			<input type="hidden" asp-for="Id" />
+
+			<div class=" mb-3">
+				<label asp-for="Email" class="form-label"></label>
+				<input asp-for="Email"  class="form-control" readonly />
+			</div>
+
+			<div class="mb-3">
+				<label asp-for="Rol" class="form-label"></label>
+				<select asp-for="Rol" class="form-select">
+					<option value="Cliente">Cliente</option>
+					<option value="Administrador">Administrador</option>
+				</select>
+				<span asp-validation-for="Rol" class="text-danger"></span>
+			</div>
+
+			<div class="mt-4">
+				<button type="submit" class="btn btn-primary">Guardar Rol</button>
+				<a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+			</div>
+		</form>
+	</div>
+</div>

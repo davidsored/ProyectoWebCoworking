@@ -1,0 +1,39 @@
+﻿@model ProyectoWebCoworking.Models.Recurso
+@{
+	ViewData["Title"] = "Detalles del Recurso";
+}
+
+<h1>Detalles del Recurso</h1>
+<hr />
+
+<div>
+	<h4>Recurso #@Model.Id</h4>
+
+	<dl class="row">
+		<dt class="col-sm-3">
+			@Html.DisplayNameFor(model => model.Nombre)
+		</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.Nombre)
+		</dd>
+
+		<dt class="col-sm-3">
+			@Html.DisplayNameFor(model => model.Tipo)
+		</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.Tipo)
+		</dd>
+
+		<dt class="col-sm-3">
+			@Html.DisplayNameFor(model => model.Capacidad)
+		</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.Capacidad)
+		</dd>
+	</dl>
+</div>
+
+<hr />
+<div>
+	<a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+</div>
