@@ -5,6 +5,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using ProyectoWebCoworking.Services;
+using System.Threading.Tasks;
 
 namespace ProyectoWebCoworking.Controllers
 {
@@ -12,10 +14,12 @@ namespace ProyectoWebCoworking.Controllers
     public class ReservasClientesController : Controller
     {
         private readonly coworking_dbContext _context;
+        private readonly IEmailService _emailService;
 
-        public ReservasClientesController(coworking_dbContext context)
+        public ReservasClientesController(coworking_dbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         #region Index
@@ -72,7 +76,7 @@ namespace ProyectoWebCoworking.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CrearReserva([Bind("RecursoId, FechaHoraInicio, FechaHoraFin")] Reserva reserva)
+        public async Task<IActionResult> CrearReserva([Bind("RecursoId, FechaHoraInicio, FechaHoraFin")] Reserva reserva)
         {
             try
             {
@@ -132,6 +136,26 @@ namespace ProyectoWebCoworking.Controllers
                     
                     _context.Reservas.Add(reserva);
                     _context.SaveChanges();
+
+                    //Obtenemos el email de la cookie
+                    string emailUsuario = User.FindFirst(ClaimTypes.Email)?.Value;
+
+                    string asunto = $"Confirmación de Reserva - {recurso.Nombre}";
+                    string mensaje = $@"Hola, Tu reserva ha sido confirmada con éxito.
+                                        Recurso: {recurso.Nombre}
+                                        Fecha Inicio: {reserva.FechaHoraInicio}
+                                        Fecha Fin: {reserva.FechaHoraFin}
+                                        Precio: {tarifa.Precio} €/hora
+                                        Estado: {reserva.Estado}
+                                        
+                                        ¡Gracias por confiar en nosotros!";
+
+                    //Envío de email
+                    if(!string.IsNullOrEmpty(emailUsuario))
+                    {
+                        await _emailService.SendEmailAsync(emailUsuario, asunto, mensaje);
+                    }
+
 
                     //En un futuro redirigiremos a la página "Mis Reservas"
                     return RedirectToAction(nameof(Index));

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWebCoworking.Models;
+using ProyectoWebCoworking.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     options.AccessDeniedPath = "/Home/AccessDenied";
 });
+
+builder.Services.AddTransient<IEmailService, FakeEmailService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
