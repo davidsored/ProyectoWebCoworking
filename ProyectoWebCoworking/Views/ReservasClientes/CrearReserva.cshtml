@@ -1,0 +1,51 @@
+﻿@model ProyectoWebCoworking.Models.Reserva
+@{
+	//Obtenemos el recurso que nos envía el controlador
+	var recurso = ViewData["Recurso"] as ProyectoWebCoworking.Models.Recurso;
+	ViewData["Title"] = $"Reservar: {recurso.Nombre}";
+}
+
+<h1>Confirmar Reserva</h1>
+<hr />
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="card mb-3">
+			<div class="card-header">
+				<h5 class="card-title">Estás reservando: @recurso.Nombre</h5>
+			</div>
+			<div class="card-body">
+				<p><strong>Tipo: </strong>@recurso.Tipo</p>
+				<p><strong>Capacidad: </strong>@recurso.Capacidad personas</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<h4>Selecciona las fechas</h4>
+
+		<form asp-action="CrearReserva" method="post">
+
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+			<input type="hidden" asp-for="RecursoId" value="@recurso.Id" />
+
+			<div class="mb-3">
+				<label asp-for="FechaHoraInicio" class="form-label">Inicio de la Reserva</label>
+				<input asp-for="FechaHoraInicio" class="form-control" type="datetime-local" />
+				<span asp-validation-for="FechaHoraInicio" class="text-danger"></span>
+			</div>
+
+			<div class="mb-3">
+				<label asp-for="FechaHoraFin" class="form-label">Fin de la Reserva</label>
+				<input asp-for="FechaHoraFin" class="form-control" type="datetime-local" />
+				<span asp-validation-for="FechaHoraFin" class="text-danger"></span>
+			</div>
+
+			<div class="mt-4">
+				<button type="submit" class="btn btn-primary">Confirmar Reserva</button>
+				<a asp-controller="Home" asp-action="Catalogo" class="btn btn-secondary">Cancelar</a>
+			</div>
+		</form>
+	</div>
+</div>

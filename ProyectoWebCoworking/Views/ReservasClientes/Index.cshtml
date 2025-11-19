@@ -1,0 +1,86 @@
+﻿@model IEnumerable<ProyectoWebCoworking.Models.Reserva>
+@{
+	ViewData["Title"] = "Mis Reservas";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Mis Reservas</h1>
+<p>Aquí puedes ver el historial de todas tus reservas</p>
+<hr />
+
+@if (!Model.Any())
+{
+	<div class="alert alert-info" role="alert">
+		Aún no has realizado ninguna reserva. ¡<a asp-controller="Home" asp-action="Catalogo" class="alert-link">Explora nuestro catálogo</a>!
+	</div>
+}
+else
+{	
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Recurso</th>
+				<th>Inicio</th>
+				<th>Fin</th>
+				<th>Duración</th> 
+				<th>Tarifa (Hora)</th>
+				<th>Coste Total</th> 
+				<th>Estado</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{				
+				<tr>
+					<td> @Html.DisplayFor(modelItem => item.Recurso.Nombre)</td>
+					<td> @item.FechaHoraInicio.ToString("g")</td>
+					<td> @item.FechaHoraFin.ToString("g")</td>
+					<td> @((item.FechaHoraFin - item.FechaHoraInicio).TotalHours.ToString("0.##")) h</td>
+					<td> @((item.Tarifa?.Precio ?? 0).ToString("C"))</td>
+					<td class="fw-bold text-success">@(((item.Tarifa?.Precio ?? 0) * (decimal)(item.FechaHoraFin - item.FechaHoraInicio).TotalHours).ToString("C"))</td>
+					<td> @Html.DisplayFor(modelItem => item.Estado)</td>
+					<td>
+						<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalConfirmarBorrado" data-id-reserva="@item.Id" data-nombre-reserva="Reserva de @item.Usuario?.Nombre para @item.Recurso?.Nombre">Cancelar</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+<div class="modal fade" id="modalConfirmarBorrado" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalLabel">Confirmar Cancelación</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+			</div>
+			<div class="modal-body">
+				<p>¿Estás seguro de que quieres cancelar esta reserva?</p>
+				<p class="text-danger"><strong id="nombreReservaModal"></strong></p>
+				<p class="text-danger small">Esta acción no se puede deshacer.</p>
+			</div>
+			<div class="modal-footer">
+				<form asp-action="Delete" method="post">
+					<input type="hidden" name="id" id="idReservaHidden" />
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+					<button type="submit" class="btn btn-danger">Confirmar Cancelación</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+@section Scripts {
+	<script>
+		$(document).ready(function() {
+			$('#modalConfirmarBorrado').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget);
+				var id = button.data('id-reserva');
+				var nombre = button.data('nombre-reserva');
+				var modal = $(this);
+				modal.find('.modal-body #nombreReservaModal').text(nombre);
+				modal.find('.modal-footer #idReservaHidden').val(id);
+			});
+		});
+	</script>
+}

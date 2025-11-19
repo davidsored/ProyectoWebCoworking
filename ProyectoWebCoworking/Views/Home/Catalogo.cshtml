@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ProyectoWebCoworking.Models.Recurso>
+@{
+	ViewData["Title"] = "Nuestro Catálogo";
+}
+
+<div class="text-center">
+	<h1 class="display-4">Nuestro Catálogo</h1>
+	<p class="lead">Explora los espacios y puestos disponibles </p>
+</div>
+
+<hr />
+
+<div class="row">
+	@foreach (var recurso in Model)
+	{
+		<div class="col-lg-4 col-md-6 mb-4">
+			<div class="card h-100">
+				
+				<div class="card-body">
+					<h5 class="card-title">@Html.DisplayFor(modelItem => recurso.Nombre)</h5>
+					<p class="card-text">
+						<strong>Tipo: </strong> @Html.DisplayFor(modelItem => recurso.Tipo)
+						<br />
+						<strong>Capacidad: </strong> @Html.DisplayFor(modelItem => recurso.Capacidad) personas
+					</p>
+				</div>
+
+				<div class="card-footer text-center">
+					<a asp-action="CrearReserva" asp-controller="ReservasClientes" asp-route-id="@recurso.Id" class="btn btn-primary">Reservar Ahora</a>
+				</div>
+			</div>
+		</div>
+	}
+</div>

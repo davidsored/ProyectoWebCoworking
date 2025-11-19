@@ -196,5 +196,116 @@ namespace ProyectoWebCoworking.Controllers
         }
 
         #endregion
+
+        #region PerfilUsuario
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult MiPerfil()
+        {
+            //Obtenemos el Id del usuario logueado
+            string? usuarioIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(usuarioIdString))
+            {
+                return Challenge();
+            }
+            int usuarioId = int.Parse(usuarioIdString);
+
+            //Se busca al usuario en la base de datos
+            var usuario = _context.Usuarios.Find(usuarioId);
+            if(usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult MiPerfil([Bind("Id, Nombre, Apellidos, Email, Teléfono, PasswordActual, NuevaPassword, ConfirmarPassword")] Usuario usuarioForm)
+        {
+            //Identificamos al usuario logueado
+            string? usuarioIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            int usuarioIdLogueado = int.Parse(usuarioIdString ?? "0");
+
+            if(usuarioForm.Id != usuarioIdLogueado)
+            {
+                return Forbid();
+            }
+
+            //Obtenemos al usuario de la base de datos
+            var usuarioBD = _context.Usuarios.Find(usuarioForm.Id);
+            if(usuarioBD == null)
+            {
+                return NotFound();
+            }
+
+            //Validación de la contraseña actual
+            if(string.IsNullOrEmpty(usuarioForm.PasswordActual))
+            {
+                ModelState.AddModelError("PasswordActual", "Debes ingresar tu contraseña actual para guardar cualquier cambio.");
+            }
+            else
+            {
+                bool passwordCorrecta = BCrypt.Net.BCrypt.Verify(usuarioForm.PasswordActual, usuarioBD.ContraseñaHash);
+                if(!passwordCorrecta)
+                {
+                    ModelState.AddModelError("PasswordActual", "La contraseña actual es incorrecta.");
+                }
+            }
+
+            //Validación de la duplicidad del email
+            if (usuarioForm.Email != usuarioBD.Email)
+            {
+                bool emailExiste = _context.Usuarios.Any(u => u.Email == usuarioForm.Email && u.Id != usuarioForm.Id);
+                if (emailExiste)
+                {
+                    ModelState.AddModelError("Email", "Este correo ya está registrado");
+                }
+            }
+
+            //Cambio de contraseña (solo se accede si se escribe algo en el campo "NuevaPassword")
+            bool cambiarPassword = !string.IsNullOrEmpty(usuarioForm.NuevaPassword);
+            
+            if (cambiarPassword)
+            {
+                if (usuarioForm.NuevaPassword != usuarioForm.ConfirmarPassword)
+                {
+                    ModelState.AddModelError("ConfirmarPassword", "Las contraseñas nuevas no coinciden.");
+                }
+                else
+                {
+                    //si Todo está bien, hasheamos la nueva contraseña
+                    usuarioBD.ContraseñaHash = BCrypt.Net.BCrypt.HashPassword(usuarioForm.NuevaPassword);
+                }
+            }
+                        
+            ModelState.Remove("Rol");
+            ModelState.Remove("ContraseñaHash");
+            ModelState.Remove("Password");            
+
+            if (ModelState.IsValid)
+            {
+                usuarioBD.Nombre = usuarioForm.Nombre;
+                usuarioBD.Apellidos = usuarioForm.Apellidos;
+                usuarioBD.Teléfono = usuarioForm.Teléfono;
+                usuarioBD.Email = usuarioForm.Email;
+
+                _context.Update(usuarioBD);
+                _context.SaveChanges();
+
+                TempData["MensajeExito"] = "¡Datos actualizados correctamente!";
+                
+                return RedirectToAction(nameof(MiPerfil));
+            }
+
+            if(string.IsNullOrEmpty(usuarioForm.Email)) usuarioForm.Email = usuarioBD.Email;
+
+            return View(usuarioForm);
+        }
+
+        #endregion
     }
 }

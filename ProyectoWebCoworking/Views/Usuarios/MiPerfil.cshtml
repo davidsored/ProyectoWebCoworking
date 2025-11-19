@@ -1,0 +1,86 @@
+﻿@model ProyectoWebCoworking.Models.Usuario
+@{
+	ViewData["Title"] = "Mi Perfil";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Mi Perfil</h1>
+<hr />
+
+@if(TempData["MensajeExito"] != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		<strong>¡Éxito!</strong> @TempData["MensajeExito"]
+		<button type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+	</div>
+}
+
+<div class="row">
+	<div class="col-md-6">
+
+		<form asp-action="MiPerfil" method="post">
+
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="Id" />
+			<input type="hidden" asp-for="Rol" />
+			<input type="hidden" asp-for="ContraseñaHash" />
+			
+			<h4>Datos Personales</h4>
+
+			<div class="mb-3">
+				<label asp-for="Nombre" class="form-label">Nombre</label>
+				<input asp-for="Nombre" class="form-control" />
+				<span asp-validation-for="Nombre" class="text-danger"></span>
+			</div>
+
+			<div class="mb-3">
+				<label asp-for="Apellidos" class="form-label">Apellidos</label>
+				<input asp-for="Apellidos" class="form-control" />
+				<span asp-validation-for="Apellidos" class="text-danger"></span>
+			</div>
+			
+			<div class="mb-3">
+				<label asp-for="Email" class="form-label">Correo Electrónico</label>
+				<input asp-for="Email" class="form-control" />
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>			
+
+			<div class="mb-3">
+				<label asp-for="Teléfono" class="form-label">Teléfono</label>
+				<input asp-for="Teléfono" class="form-control" />
+				<span asp-validation-for="Teléfono" class="text-danger"></span>
+			</div>			
+
+			<hr class="my-4" />
+
+			<div class="bg-light p-3 border rounded mb-3">
+				<label class="form-label fw-bold">Contraseña Actual (Obligatoria para guardar)</label> 
+				<input asp-for="PasswordActual" class="form-control" type="password" autocomplete="current-password" />
+				<span asp-validation-for="PasswordActual" class="text-danger"></span>
+			</div>
+
+			<p>
+				<a class="btn btn-outline-secondary btn-sm" data-bs-toggle="collapse" href="#collapsePassword" role="button" aria-expanded="false" aria-controls="collapsePassword">¿Quieres cambiar tu contraseña?</a>
+			</p>
+			<div class="collapse" id="collapsePassword">
+				<div class="card card-body mb-3">
+					<div class="mb-3">
+						<label class="form-label">Nueva Contraseña</label>
+						<input asp-for="NuevaPassword" class="form-control" type="password" autocomplete="new-password" />
+						<span asp-validation-for="NuevaPassword" class="text-danger"></span>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Confirmar Nueva Contraseña</label>
+						<input asp-for="ConfirmarPassword" class="form-control" type="password" autocomplete="new-password" />
+						<span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="mt-4">
+				<button type="submit" class="btn btn-primary">Guardar Cambios</button>
+				<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+			</div>			
+		</form>
+	</div>
+</div>
