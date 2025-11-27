@@ -13,20 +13,31 @@
 <div class="row">
 	@foreach (var recurso in Model)
 	{
+		string imagen = "oficina.jpg";
+		
+		if (recurso.Tipo.Contains("Sala") || recurso.Nombre.Contains("Sala")) 
+		{
+			imagen = "reuniones.jpg";
+		}
+
+		if (recurso.Tipo.Contains("Puesto") || recurso.Nombre.Contains("Puesto"))
+		{
+			imagen = "PuestosFijos.jpg";
+		}		
+
 		<div class="col-lg-4 col-md-6 mb-4">
-			<div class="card h-100">
+			<div class="card h-100 shadow-sm"> <img src="~/images/@imagen" class="card-img-top" alt="@recurso.Nombre" style="height: 200px; object-fit: cover;" />
 				
 				<div class="card-body">
 					<h5 class="card-title">@Html.DisplayFor(modelItem => recurso.Nombre)</h5>
 					<p class="card-text">
-						<strong>Tipo: </strong> @Html.DisplayFor(modelItem => recurso.Tipo)
-						<br />
-						<strong>Capacidad: </strong> @Html.DisplayFor(modelItem => recurso.Capacidad) personas
+						<span class="badge bg-info text-dark">@recurso.Tipo</span> <br />
+						<small class="text-muted">Capacidad: @recurso.Capacidad personas</small>
 					</p>
 				</div>
 
-				<div class="card-footer text-center">
-					<a asp-action="CrearReserva" asp-controller="ReservasClientes" asp-route-id="@recurso.Id" class="btn btn-primary">Reservar Ahora</a>
+				<div class="card-footer bg-white border-top-0 text-center">
+					<a asp-action="CrearReserva" asp-controller="ReservasClientes" asp-route-id="@recurso.Id" class="btn btn-primary w-100">Reservar Ahora</a>
 				</div>
 			</div>
 		</div>

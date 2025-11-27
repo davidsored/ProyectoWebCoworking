@@ -1,8 +1,52 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section mb-5">
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+        <h1 class="display-3 fw-bold">Tu Espacio de Trabajo Ideal</h1>
+        <p class="lead mb-4">Concéntrate, colabora, crece en el mejor ambiente profesional</p>
+        <a asp-controller="Home" asp-action="Catalogo" class="btn btn-primary btn-lg px-5">Ver Espacios y Reservar</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="row text-center mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="text-primary mb-3">
+                <i class="h5 bi-wifi display-4"></i>
+            </div>
+            <h3 class="h5">Alta velocidad</h3>
+            <p class="text-muted">Internet de fibra óptica para que nunca te desconectes.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="text-primary mb-3">
+                <i class="h5 bi-cup-hot-fill display-4"></i>
+            </div>
+            <h3 class="h5">Café ilimitado</h3>
+            <p class="text-muted">Zona de descanso con café y té gratuito para nuestros miembros.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="text-primary mb-3">
+                <i class="h5 bi-shield-lock-fill display-4"></i>
+            </div>
+            <h3 class="h5">Acceso seguro</h3>
+            <p class="text-muted">Tu propio espacio con seguridad y acceso controlado.</p>
+        </div>
+    </div>
+
+    <hr class="my-5" />
+
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h2>¿Buscas un despacho privado o un puesto flexible?</h2>
+            <a class="lead text-muted">Tenemos tarifas adaptadas a tus necesidades, desde precios diarios hasta oficinas privadas mensuales.</a>
+            <a asp-controller="Home" asp-action="Catalogo" class="btn btn-outline-primary">Explorar Opciones</a>
+        </div>
+        <div class="col-md-6">
+            <img src="~/images/reuniones.jpg" class="img-fluid rounded shadow" alt="Sala de reuniones" />
+        </div>
+    </div>
 </div>

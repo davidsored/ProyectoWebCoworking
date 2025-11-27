@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProyectoWebCoworking</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/zephyr/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProyectoWebCoworking.styles.css" asp-append-version="true" />
 </head>
@@ -72,16 +73,56 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container mb-5">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer mt-auto py-5 bg-dark text-white" >
         <div class="container">
-            &copy; 2025 - ProyectoWebCoworking - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="text-white fw-bold mb-3">ProyectoWebCoworking</h5>
+                    <p class="text-white-50 small pe-4">
+                        Creamos espacios donde las ideas fluyen y los negocios crecen.<br />
+                        Tu oficina flexible en el centro de la ciudad.                        
+                    </p>
+                    <div class="d-flex gap-3 fs-4">
+                        <a href="#" class="text-white text-decoration-none"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white text-decoration-none"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="text-white text-decoration-none"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="fw-bold mb-3">Enlaces Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a asp-controller="Home" asp-action="Index" class="text-decoration-none text-white-50">Inicio</a></li>
+                        <li class="mb-2"><a asp-controller="Home" asp-action="Catalogo" class="text-decoration-none text-white-50">Catálogo de Espacios</a></li>
+                        <li class="mb-2"><a asp-controller="Home" asp-action="Registro" class="text-decoration-none text-white-50">Únete a Nosotros</a></li>
+                        <li class="mb-2"><a asp-controller="Home" asp-action="Privacy" class="text-decoration-none text-white-50">Plítica de Privacidad</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-4">
+                    <h5 class="fw-bold mb-3">Contacto</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-geo-alt-fill me-2 text-white"></i>Calle Principal 123, Oviedo</li>
+                        <li class="mb-2"><i class="bi bi-envelope-fill me-2 text-white"></i> info@coworking.es</li>
+                        <li class="mb-2"><i class="bi bi-telephone-fill me-2 text-white"></i> +34 123 456 789</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="text-center text-white-50 small">
+                &copy; 2025 ProyectoWebCoworking. Todos los derechos reservados.
+            </div>
         </div>
+        
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

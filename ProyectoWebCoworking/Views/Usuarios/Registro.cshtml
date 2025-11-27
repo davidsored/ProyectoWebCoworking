@@ -1,44 +1,72 @@
 ﻿@model ProyectoWebCoworking.Models.Usuario
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Registro de Usuario";
+    ViewData["Title"] = "Crear Cuenta";
 }
 
-<h2 class="text-center">Formulario de Registro</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col col-lg-6">
 
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form asp-controller="Usuarios" asp-action="Registro" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="card shadow-lg border rounded-lg mt-5">
 
-            <div class="mb-3">
-                <label asp-for="Nombre" class="form-label">Nombre Completo</label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="font-weight-light my-2"><i class="bi bi-person-plus-fill me-2"></i>Crear Cuenta</h3>
+                    <p class="small mb-0 text-white-50">Únete a nuestra comunidad de coworking</p>
+                </div>
+
+                <div class="card-body p-5">
+                    <form asp-controller="Usuarios" asp-action="Registro" method="post">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Nombre" class="form-control" placeholder="Nombre" autocomplete="name" />
+                            <label asp-for="Nombre">Nombre</label>                            
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Apellidos" class="form-control" placeholder="Apellidos" autocomplete="family-name" />
+                            <label asp-for="Apellidos">Apellidos</label>
+                            <span asp-validation-for="Apellidos" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" class="form-control" placeholder="nombre@ejemplo.es" autocomplete="email" />
+                            <label asp-for="Email">Correo Electrónico</label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input asp-for="Password" class="form-control" type="password" placeholder="Contraseña" autocomplete="new-password" />
+                                    <label asp-for="Password">Contraseña</label>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="Teléfono" class="form-control" placeholder="Teléfono" autocomplete="tel" />
+                                    <label asp-for="Teléfono">Teléfono</label>
+                                    <span asp-validation-for="Teléfono" class="text-danger"></span>
+								</div>
+                             </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Registrarse</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer text-center py-3">
+                    <div class="small">
+                        ¿Ya tienes una cuenta? <a asp-action="Login" class="text-primary fw-bold">Inicia sesión aquí</a>
+                    </div>
+                </div>
             </div>
-
-            <div class="mb-3">
-                <label asp-for="Email" class="form-label">Email</label>
-                <input asp-for="Email" class="form-control" placeholder="ejemplo@correo.com" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Password" class="form-label">Contraseña</label>
-                <input asp-for="Password" class="form-control" type="password" autocomplete="new-password" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Teléfono" class="form-label">Teléfono</label>
-                <input asp-for="Teléfono" class="form-control" />
-                <span asp-validation-for="Teléfono" class="text-danger"></span>
-            </div>
-
-            <hr />
-
-            <button type="submit" class="btn btn-primary">Crear Cuenta</button>
-        </form>
-
+        </div>
     </div>
 </div>
