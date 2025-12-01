@@ -4,67 +4,133 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Mis Reservas</h1>
-<p>Aquí puedes ver el historial de todas tus reservas</p>
-<hr />
+<div class="container mt-5 mb-5">
 
-@if (!Model.Any())
-{
-	<div class="alert alert-info" role="alert">
-		Aún no has realizado ninguna reserva. ¡<a asp-controller="Home" asp-action="Catalogo" class="alert-link">Explora nuestro catálogo</a>!
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<div>
+			<h1 class="display-6 fw-bold"><i class="bi bi-calendar-check me-2 text-primary"></i>Mis Reservas</h1>
+			<p class="text-muted">Consulta el historial y estado de tus reservas.</p>
+		</div>
+		<a asp-controller="Home" asp-action="Catalogo" class="btn btn-primary shadow-sm">
+			<i class="bi bi-plus-lg me-1"></i>Nueva Reserva
+		</a>
 	</div>
-}
-else
-{	
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>Recurso</th>
-				<th>Inicio</th>
-				<th>Fin</th>
-				<th>Duración</th> 
-				<th>Tarifa (Hora)</th>
-				<th>Coste Total</th> 
-				<th>Estado</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{				
-				<tr>
-					<td> @Html.DisplayFor(modelItem => item.Recurso.Nombre)</td>
-					<td> @item.FechaHoraInicio.ToString("g")</td>
-					<td> @item.FechaHoraFin.ToString("g")</td>
-					<td> @((item.FechaHoraFin - item.FechaHoraInicio).TotalHours.ToString("0.##")) h</td>
-					<td> @((item.Tarifa?.Precio ?? 0).ToString("C"))</td>
-					<td class="fw-bold text-success">@(((item.Tarifa?.Precio ?? 0) * (decimal)(item.FechaHoraFin - item.FechaHoraInicio).TotalHours).ToString("C"))</td>
-					<td> @Html.DisplayFor(modelItem => item.Estado)</td>
-					<td>
-						<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalConfirmarBorrado" data-id-reserva="@item.Id" data-nombre-reserva="Reserva de @item.Usuario?.Nombre para @item.Recurso?.Nombre">Cancelar</button>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
-}
+
+	@if (!Model.Any())
+	{
+		<div class="card shadow-sm border-0 text-center p-5 bg-light rounded-3">
+			<div class="card-body">
+				<i class="bi bi-calendar-x display-1 text-muted mb-3"></i>
+				<h3 class="h4 text-secondary">No tienes reservas activas</h3>
+				<p class="text-muted mb-4">Parece que aun no has reservado nungún espacio. ¡Echa un vistazo a nuestro catálogo!</p>
+				<a asp-controller="Home" asp-action="Catalogo" class="btn btn-outline-primary px-4 rounded-pill">Explorar Catálogo</a>
+			</div>			
+		</div>
+	}
+	else
+	{
+		<div class="card shadow-lg border-0 overflow-hidden">
+			<div class="table-responsive">
+				<table class="table table-hover align-middle mb-0">
+					<thead class="bg-light text-uppercase small fw-bold text-muted">
+						<tr>
+							<th class="py-3 ps-4">Recurso</th>
+							<th>Inicio</th>
+							<th>Fin</th>
+							<th>Duración</th>
+							<th>Tarifa (Hora)</th>
+							<th>Coste Total</th>
+							<th>Estado</th>
+							<th class="text-end pe-4">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model)
+						{
+							<tr>
+								<td class="ps-4">
+									<div class="d-flex align-items-center">
+										<div class="bg-primary bg-opacity-10 p-2 rounded me-3 text-primary">
+											<i class="bi bi-building"></i>
+										</div>
+										<div>
+											<h6 class="mb-0 fw-bold">@Html.DisplayFor(modelItem => item.Recurso.Nombre)</h6>
+											<small class="text-muted">@item.Recurso.Tipo</small>
+										</div>
+									</div>
+								</td>
+								<td class="text-nowrap">
+									<i class="bi bi-calendar-event me-1 text-muted small"></i>
+									@item.FechaHoraInicio.ToString("dd/MM/yyyy")
+									<br />
+									<i class="bi bi-clock me-1 text-muted small"></i>
+										@item.FechaHoraInicio.ToString("HH:mm")									
+								</td>
+								<td class="text-nowrap">
+									<i class="bi bi-calendar-event me-1 text-muted small"></i>
+									@item.FechaHoraFin.ToString("dd/MM/yyyy")
+									<br />
+									<i class="bi bi-clock me-1 text-muted small"></i>
+									@item.FechaHoraFin.ToString("HH:mm")
+								</td>
+
+								<td>
+									<span class="badge bg-light text-dark border">
+										@((item.FechaHoraFin - item.FechaHoraInicio).TotalHours.ToString("0.##")) h
+									</span>
+								</td>
+								<td class="text-muted small">
+									@((item.Tarifa?.Precio ?? 0).ToString("C"))
+								</td>
+
+								<td class="fw-bold text-success">
+									@(((item.Tarifa?.Precio ?? 0) * (decimal)(item.FechaHoraFin - item.FechaHoraInicio).TotalHours).ToString("C"))
+								</td>
+
+								<td>
+									@if (item.Estado == "Confirmada")
+									{
+										<span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">Confirmada</span>
+									}
+									else
+									{
+										<span class="badge bg-secondary">@item.Estado</span>
+									}
+								</td>
+
+								<td class="text-end pe-4">
+									<button type="button" class="btn btn-outline-danger btn-sm d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalConfirmarBorrado" data-id-reserva="@item.Id" data-nombre-reserva="Reserva de @item.Recurso?.Nombre">
+											<i class="bi bi-trash me-1"></i>Cancelar
+									</button>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	}
+</div>
 <div class="modal fade" id="modalConfirmarBorrado" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="modalLabel">Confirmar Cancelación</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content border-0 shadow">
+			<div class="modal-header bg-danger text-white">
+				<h5 class="modal-title" id="modalLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>Confirmar Cancelación</h5>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
 			</div>
-			<div class="modal-body">
-				<p>¿Estás seguro de que quieres cancelar esta reserva?</p>
-				<p class="text-danger"><strong id="nombreReservaModal"></strong></p>
-				<p class="text-danger small">Esta acción no se puede deshacer.</p>
+			<div class="modal-body p-4 text-center">
+				<div class="mb-3">
+					<i class="bi bi-x-circle text-danger display-1"></i>
+				</div>
+				<p class="lead mb-1">¿Seguro de que quieres cancelar?</p>
+				<p class="fw-bold mb-3" id="nombreReservaModal">...</p>
+				<p class="text-muted small">Esta acción no se puede deshacer.</p>
 			</div>
-			<div class="modal-footer">
-				<form asp-action="Delete" method="post">
+			<div class="modal-footer bg-light border-0 justify-content-center pb-4">
+				<form asp-action="Delete" method="post" class="w-100 px-4 d-flex gap-2">
 					<input type="hidden" name="id" id="idReservaHidden" />
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-					<button type="submit" class="btn btn-danger">Confirmar Cancelación</button>
+					<button type="button" class="btn btn-light border flex-grow-1" data-bs-dismiss="modal">Mantener Reserva</button>
+					<button type="submit" class="btn btn-danger flex-grow-1">Si, Cancelar</button>
 				</form>
 			</div>
 		</div>

@@ -2,51 +2,69 @@
 	ViewData["Title"] = "Panel de Administración";
 }
 
-<h1 class="display-4">Panel de Administración</h1>
-<p class="lead">Bienvenido, @User.Identity.Name. Desde aquí puedes gestionar el contenido de la web.</p>
+<div class="container mt-5 mb-5">
 
-<hr />
+	<div class="text-center mb-5">
+		<h1 class="display-5 fw-bold text-dark">Panel de Administración</h1>
+		<p class="lead text-muted">Bienvenido, @User.Identity.Name. Desde aquí puedes gestionar el contenido de la web.</p>
+	</div>
 
-<div class="row">
+	<div class="row g-4">
 
-	<div class="col-md-4">
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Gestión de Recursos</h5>
-				<p class="card-text">Administra las salas, puestos fijos, puestos flexibles y otros recursos del coworking.</p>
-				<a asp-controller="Recursos" asp-action="Index" class="btn btn-primary">Gestionar Recursos</a>
+		<div class="col-md-6 col-lg-3">
+			<div class="card h-100 border-0 shadow-sm text-center hover-card">
+				<div class="card-body p-4">
+					<div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex p-3 mb-3">
+						<i class="bi bi-building-gear display-6"></i>
+					</div>
+					<h4 class="card-title fw-bold">Recursos</h4>
+					<p class="card-text text-muted small">Administra las salas, puestos fijos y otros recursos del coworking.</p>
+					<a asp-controller="Recursos" asp-action="Index" class="btn btn-outline-primary w-100 stretched-link">Gestionar</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-lg-3">
+			<div class="card h-100 border-0 shadow-sm text-center hover-card">
+				<div class="card-body p-4">
+					<div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex p-3 mb-3">
+						<i class="bi bi-currency-euro display-6"></i>
+					</div>
+					<h4 class="card-title fw-bold">Tarifas</h4>
+					<p class="card-text text-muted small">Administra los precios y planes asociados a los tipos de recursos.</p>
+					<a asp-controller="Tarifas" asp-action="Index" class="btn btn-outline-success w-100 stretched-link">Gestionar</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-lg-3">
+			<div class="card h-100 border-0 shadow-sm text-center hover-card">
+				<div class="card-body p-4">
+					<div class="bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex p-3 mb-3">
+						<i class="bi bi-people-fill display-6"></i>
+					</div>
+					<h4 class="card-title fw-bold">Usuarios</h4>
+					<p class="card-text text-muted small">Administra los roles y datos de los usuarios registrados.</p>
+					<a asp-controller="Usuarios" asp-action="Index" class="btn btn-outline-warning w-100 stretched-link">Gestionar</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-lg-3">
+			<div class="card h-100 border-0 shadow-sm text-center hover-card">
+				<div class="card-body p-4">
+					<div class="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex p-3 mb-3">
+						<i class="bi bi-calendar-check-fill display-6"></i>
+					</div>
+					<h4 class="card-title fw-bold">Reservas</h4>
+					<p class="card-text text-muted small">Revisa, aprueba o cancela las reservas de los clientes.</p>
+					<a asp-controller="Reservas" asp-action="Index" class="btn btn-outline-danger w-100 stretched-link">Gestionar</a>
+				</div>
 			</div>
 		</div>
 	</div>
-
-	<div class="col-md-4">
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Gestión de Tarifas</h5>
-				<p class="card-text">Administra los precios y planes asociados a los tipos de recursos</p>
-				<a asp-controller="Tarifas" asp-action="Index" class="btn btn-primary">Gestionar Tarifas</a>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-md-4">
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Gestión de Usuarios</h5>
-				<p class="card-text">Administra los roles y datos de los usuarios registrados.</p>
-				<a asp-controller="Usuarios" asp-action="Index" class="btn btn-primary">Gestionar Usuarios</a>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-md-4">
-		<div class="card">
-			<div class="card-body">
-				<h5 class="card-title">Gestión de Reservas</h5>
-				<p class="card-text">Revisa, aprueba o cancela las reservas de los clientes.</p>
-				<a asp-controller="Reservas" asp-action="Index" class="btn btn-primary">Gestionar Reservas</a>
-			</div>
-		</div>
-	</div>
-
 </div>
+<style>
+	.hover-card {transition: transform 0.2s ease-in-out; }
+	.hover-card:hover {transform: translateY(-5px);}
+</style>

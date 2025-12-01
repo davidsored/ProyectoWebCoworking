@@ -11,25 +11,30 @@ html {
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
-
+/*
 html {
   position: relative;
   min-height: 100%;
 }
 
-/*body {
-  margin-bottom: 60px;
-}*/
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #f8f9fa;
+}
 
 footer.footer {
-    position: relative; /* Anula el 'absolute' */
+    position: relative; 
     width: 100%;
-    white-space: normal; /* Permite saltos de línea */
+    white-space: normal; 
     line-height: normal;
     bottom: auto;
     height: auto;
+    margin-bottom: 0;
 }
-
+*/
 .hero-section {
     background: url('../images/Coolwork_space-1.jpg') no-repeat center center;
     background-size: cover;
@@ -62,6 +67,6 @@ footer.footer {
     transition: transform 0.3s;
 }
 
-.card:hover {
+/*.card:hover {
     transform: translateY(-5px);
-}
+}*/

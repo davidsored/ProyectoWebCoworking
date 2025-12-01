@@ -1,92 +1,116 @@
 ﻿@model IEnumerable<ProyectoWebCoworking.Models.Usuario>
+
 @{
-	ViewData["Title"] = "Gestionar Usuarios";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Gestionar Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Gestión de Usuarios</h1>
+<div class="container mt-5 mb-5">
 
-<table class="table table-striped">
-	<thead>
-		<tr>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="display-6 fw-bold text-warning"><i class="bi bi-people-fill me-2"></i>Usuarios</h1>
+            <p class="text-muted">Administra los roles y datos de los usuarios registrados.</p>
+        </div>
+    </div>
 
-			<th>
-				@Html.DisplayNameFor(model => model.Nombre)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Email)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Rol)
-			</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Nombre)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Email)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Rol)
-				</td>
-				<td>
-					<a asp-action="EditRol" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Editar Rol</a> |
-					<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalConfirmarBorrado" data-id-usuario="@item.Id" data-nombre-usuario="@item.Email">Eliminar</button>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
+    <div class="card shadow-lg border-0 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light text-uppercase small fw-bold text-muted">
+                    <tr>
+                        <th class="py-3 ps-4">Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-warning bg-opacity-10 p-2 rounded me-3 text-warning">
+                                        <i class="bi bi-person-circle"></i>
+                                    </div>
+                                    <span class="fw-bold text-dark">@Html.DisplayFor(modelItem => item.Nombre)</span>
+                                </div>
+                            </td>
+                            <td class="text-muted">
+                                <i class="bi bi-envelope me-2"></i>@Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @if (item.Rol == "Administrador")
+                                {
+                                    <span class="badge bg-dark bg-opacity-10 text-dark border border-dark px-2 py-1">
+                                        <i class="bi bi-shield-lock-fill me-1"></i>Admin
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info bg-opacity-10 text-info border border-info px-2 py-1">
+                                        <i class="bi bi-person me-1"></i>Cliente
+                                    </span>
+                                }
+                            </td>
+                            <td class="text-end pe-4">
+                                <div class="btn-group" role="group">
+                                    <a asp-action="EditRol" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm" title="Editar Rol">
+                                        <i class="bi bi-person-gear"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-danger btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalConfirmarBorrado"
+                                            data-id-usuario="@item.Id"
+                                            data-nombre-usuario="@item.Email" title="Eliminar">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="modalConfirmarBorrado" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="modalLabel">Confirmar Eliminación</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancelar"></button>
-			</div>
-			<div class="modal-body">
-				<p>¿Estás seguro que deseas eliminar al usuario: <strong id="nombreUsuarioModal"></strong>?</p>
-				<p class="text-danger">Esta acción no se puede deshacer.</p>
-			</div>
-			<div class="modal-footer">
-				<form asp-action="Delete" method="post">
-					<input type="hidden" name="id" id="idUsuarioHidden" />
-
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-					<button type="submit" class="btn btn-danger">Eliminar</button>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Confirmar Eliminación</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+                <div class="mb-3"><i class="bi bi-person-x text-danger display-1"></i></div>
+                <p class="lead mb-1">¿Estás seguro de eliminar este usuario?</p>
+                <p class="fw-bold mb-3" id="nombreUsuarioModal">...</p>
+                <p class="text-muted small">Esta acción borrará al usuario y sus datos.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <form asp-action="Delete" method="post" class="w-100 d-flex gap-2 px-4">
+                    <input type="hidden" name="id" id="idUsuarioHidden" />
+                    <button type="button" class="btn btn-light border flex-grow-1" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger flex-grow-1">Sí, Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 @section Scripts {
-	<script>
-		//Esperamos a que la web esté lista
-		$(document).ready(function () {
-
-			//Capturamos el evento "show.bs.modal"
-			$('#modalConfirmarBorrado').on('show.bs.modal', function (event) {
-
-				//"event.relatedTarget" es el botón eliminar
-				var button = $(event.relatedTarget);
-
-				//Extraemos la información de los atributos del botón
-				var id = button.data('id-usuario');
-				var nombre = button.data('nombre-usuario');
-
-				var modal = $(this);
-
-				//Actualizamos el texto del modal con el nombre y el id
-				modal.find('.modal-body #nombreUsuarioModal').text(nombre);
-				modal.find('.modal-footer #idUsuarioHidden').val(id);
-			});
-		});
-	</script>
+    <script>
+        $(document).ready(function () {
+            $('#modalConfirmarBorrado').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id-usuario');
+                var nombre = button.data('nombre-usuario');
+                var modal = $(this);
+                modal.find('.modal-body #nombreUsuarioModal').text(nombre);
+                modal.find('.modal-footer #idUsuarioHidden').val(id);
+            });
+        });
+    </script>
 }

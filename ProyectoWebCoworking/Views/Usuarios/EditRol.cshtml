@@ -1,38 +1,54 @@
 ﻿@model ProyectoWebCoworking.Models.Usuario
 @{
 	ViewData["Title"] = "Editar Rol de Usuario";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Editar Rol</h1>
-<hr />
+<div class="container mt-5 mb-5">
+	<div class="row justify-content-center">
+		<div class="col-md-8 col-lg-6">
 
-<div class="row">
-	<div class="col-md-6">
+			<div class="card shadow-lg border-0 rounded-lg">
 
-		<form asp-action="EditRol" asp-route-id="@Model.Id" method="post">
+				<div class="card-header bg-warning text-dark py-3 px-4">
+					<div class="d-flex align-items-center">
+						<i class="bi bi-person-gear display-6 me-3"></i>
+						<div>
+							<h4 class="mb-0 fw-bold">Editar Rol</h4>
+							<p class="mb-0 small text-dark-50">Modifica los permisos del usuario</p>
+						</div>
+					</div>
+				</div>
 
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+				<div class="card-body p-4">
+					<form asp-action="EditRol" method="post">
+						<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-			<input type="hidden" asp-for="Id" />
+						<input type="hidden" asp-for="Id" />
 
-			<div class=" mb-3">
-				<label asp-for="Email" class="form-label"></label>
-				<input asp-for="Email"  class="form-control" readonly />
+						<div class="form-floating mb-3">
+							<input asp-for="Email" class="form-control" readonly style="background-color: #e9ecef;" />
+							<label asp-for="Email">Usuario (Email)</label>
+						</div>
+
+						<div class="form-floating mb-3">
+							<select asp-for="Rol" class="form-select">
+								<option value="Cliente">Cliente</option>
+								<option value="Administrador">Administrador</option>
+							</select>
+							<label asp-for="Rol">Rol Asignado</label>
+							<span asp-validation-for="Rol" class="text-danger"></span>
+						</div>
+
+						<div class="d-flex justify-content-end gap-2">
+							<a asp-action="Index" class="btn btn-outline-secondary px-4">Cancelar</a>
+							<button type="submit" class="btn btn-warning px-4">
+								<i class="bi bi-save me-1"></i> Guardar Cambios
+							</button>
+						</div>
+					</form>
+				</div>
 			</div>
-
-			<div class="mb-3">
-				<label asp-for="Rol" class="form-label"></label>
-				<select asp-for="Rol" class="form-select">
-					<option value="Cliente">Cliente</option>
-					<option value="Administrador">Administrador</option>
-				</select>
-				<span asp-validation-for="Rol" class="text-danger"></span>
-			</div>
-
-			<div class="mt-4">
-				<button type="submit" class="btn btn-primary">Guardar Rol</button>
-				<a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-			</div>
-		</form>
+		</div>
 	</div>
 </div>

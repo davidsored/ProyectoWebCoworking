@@ -5,47 +5,66 @@
 	ViewData["Title"] = $"Reservar: {recurso.Nombre}";
 }
 
-<h1>Confirmar Reserva</h1>
-<hr />
+<div class="container mt-5 mb-5">
 
-<div class="row">
-	<div class="col-md-6">
-		<div class="card mb-3">
-			<div class="card-header">
-				<h5 class="card-title">Estás reservando: @recurso.Nombre</h5>
-			</div>
-			<div class="card-body">
-				<p><strong>Tipo: </strong>@recurso.Tipo</p>
-				<p><strong>Capacidad: </strong>@recurso.Capacidad personas</p>
+	<div class="row justify-content-center">
+
+		<div class="col-md-5 col-lg-4 mb-4 mb-md-0">
+			<div class="card shadow border-0 h-100 bg-light">
+				<div class="card-body p-4 text-center">
+					<div class="mb-3 text-primary">
+						<i class="bi bi-calendar-plus display-1"></i>
+					</div>
+					<h3 class="fw-bold mb-1">@recurso.Nombre</h3>
+					<span class="badge bg-primary bg-opacity-10 text-primary mb-3">@recurso.Tipo</span>
+
+					<hr class="my-4" />
+
+					<ul class="list-unstyled text-start mx-auto" style="max-width: 200px;">
+						<li class="mb-2"><i class="bi bi-people me-2 text-muted"></i>Capacidad: <strong>@recurso.Capacidad</strong></li>
+						<li class="mb-2"><i class="bi bi-wifi me-2 text-muted"></i>Wifi incluido</li>
+						<li class="mb-2"><i class="bi bi-check-circle me-2 text-muted"></i>Confirmación inmediata</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="col-md-6">
-		<h4>Selecciona las fechas</h4>
+		<div class="col-md-7 col-lg-6">
+			<div class="card shadow border-0">
+				<div class="card-header bg-white border-0 pt-4 px-4 pb-0">
+					<h4 class="fw-bold">Selecciona tus fechas</h4>
+					<p class="text-muted small">Elige cuando quieres empezar y terminar tu reserva.</p>
+				</div>
+				<div class="card-body p-4">
+					<form asp-action="CrearReserva" method="post">
+						<div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 text-small mb-3"></div>
+						<input type="hidden" asp-for="RecursoId" value="@recurso.Id" />
 
-		<form asp-action="CrearReserva" method="post">
+						<div class="row g-2 mb-3">
+							<div class="col-12">
+								<label asp-for="FechaHoraInicio" class="form-label fw-bold small text-uppercase text-muted">Inicio</label>
+								<input asp-for="FechaHoraInicio" class="form-control form-control-lg" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+								<span asp-validation-for="FechaHoraInicio" class="text-danger small"></span>
+							</div>
+							<div class="col-12">
+								<label asp-for="FechaHoraFin" class="form-label fw-bold small text-uppercase text-muted">Fin</label>
+								<input asp-for="FechaHoraFin" class="form-control form-control-lg" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+								<span asp-validation-for="FechaHoraFin" class="text-danger small"></span>
+							</div>
+						</div>
 
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+						<div class="alert alert-info d-flex align-items-center small -py-2">
+							<i class="bi bi-info-circle-fill me-2"></i>
+							<div>El precio final se calculará al confirmar.</div>
+						</div>
 
-			<input type="hidden" asp-for="RecursoId" value="@recurso.Id" />
-
-			<div class="mb-3">
-				<label asp-for="FechaHoraInicio" class="form-label">Inicio de la Reserva</label>
-				<input asp-for="FechaHoraInicio" class="form-control" type="datetime-local" />
-				<span asp-validation-for="FechaHoraInicio" class="text-danger"></span>
+						<div class="d-grid gap-2 mt-4">
+							<button type="submit" class="btn btn-primary btn-lg shadow-sm">Confirmar Reserva</button>
+							<a asp-controller="Home" asp-action="Catalogo" class="btn btn-link text-muted text-decoration-none">Cancelar y volver</a>
+						</div>
+					</form>
+				</div>
 			</div>
-
-			<div class="mb-3">
-				<label asp-for="FechaHoraFin" class="form-label">Fin de la Reserva</label>
-				<input asp-for="FechaHoraFin" class="form-control" type="datetime-local" />
-				<span asp-validation-for="FechaHoraFin" class="text-danger"></span>
-			</div>
-
-			<div class="mt-4">
-				<button type="submit" class="btn btn-primary">Confirmar Reserva</button>
-				<a asp-controller="Home" asp-action="Catalogo" class="btn btn-secondary">Cancelar</a>
-			</div>
-		</form>
+		</div>
 	</div>
 </div>

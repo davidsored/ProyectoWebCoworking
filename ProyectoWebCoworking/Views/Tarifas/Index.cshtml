@@ -4,68 +4,87 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Gestión de Tarifas</h1>
+<div class="container mt-5 mb-5">
 
-<p>
-	<a asp-action="Create" class="btn btn-primary">Crear Nueva Tarifa</a>
-</p>
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<div>
+			<h1 class="display-6 fw-bold text-success"><i class="bi  bi-cash-coin me-2"></i>Tarifas</h1>
+			<p class="text-muted">Administra los precios y planes de cobro del coworking.</p>
+		</div>
+		<a asp-action="Create" class="btn btn-success shadow-sm">
+			<i class="bi bi-plus-lg me-1"></i> Nueva Tarifa
+		</a>
+	</div>
 
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.Nombre)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Precio)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.TipoRecurso)
-			</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Nombre)
-				</td>
-				<td>
-					@item.Precio.ToString("C")
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.TipoRecurso)
-				</td>
-				<td>
-					<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Editar</a>
-					<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detalles</a>
-
-					<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalConfirmarBorrado" data-id-tarifa="@item.Id" data-nombre-tarifa="@item.Nombre">Eliminar</button>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
-
+	<div class="card shadow-lg border-0 overflow-hidden">
+		<div class="table-responsive">
+			<table class="table table-hover align-middle mb-0">
+				<thead class="bg-light text-uppercase small fw-bold text-muted">
+					<tr>
+						<th class="py-3 ps-4">Nombre</th>
+						<th>Precio</th>
+						<th>Tipo de Recurso</th>
+						<th class="text-end pe-4">Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td class="ps-4">
+								<div class="d-flex align-items-center">
+									<div class="bg-success bg-opacity-10 p-2 rounded me-3 text-success">
+										<i class="bi bi-tag-fill"></i>
+									</div>
+									<span class="fw-bold text-dark">@Html.DisplayFor(modelItem => item.Nombre)</span>
+								</div>
+							</td>
+							<td>
+								<span class="fw-bold text-success">@item.Precio.ToString("C")</span>
+							</td>
+							<td>
+								<span class="badge bg-success bg-opacity-10 text-success border border-success px-2 py-1">
+									@Html.DisplayFor(modelItem => item.TipoRecurso)
+								</span>
+							</td>
+							<td class="text-end pe-4">
+								<div class="btn-group" role="group">
+									<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm" title="Editar">
+										<i class="bi bi-pencil-fill"></i>
+									</a>
+									<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm" title="Detalles">
+										<i class="bi bi-eye-fill"></i>
+									</a>
+									<button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalConfirmarBorrado" data-id-tarifa="@item.Id" data-nombre-tarifa="@item.Nombre" title="Eliminar">
+										<i class="bi bi-trash3-fill"></i>
+									</button>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 <div class="modal fade" id="modalConfirmarBorrado" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="modalLabel">Confirmar Eliminación</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancelar"></button>
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content border-0 shadow">
+			<div class="modal-header bg-danger text-white">
+				<h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Confirmar Eliminación</h5>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
 			</div>
-			<div class="modal-body">
-				<p>¿Estás seguro que deseas eliminar la tarifa: <strong id="nombreTarifaModal"></strong>?</p>
-				<p class="text-danger">Esta acción no se puede deshacer.</p>
+			<div class="modal-body p-4 text-center">
+				<div class="mb-3"><i class="bi bi-trash3 text-danger display-1"></i></div>
+				<p class="lead mb-1">¿Estás seguro que deseas eliminar esta tarifa?</p>
+				<p class="fw-bold mb-3" id="nombreTarifaModal">...</p>
+				<p class="text-muted small">Esta acción no se puede deshacer.</p>
 			</div>
-			<div class="modal-footer">
-				<form asp-action="Delete" method="post">
+			<div class="modal-footer justify-content-center">
+				<form asp-action="Delete" method="post" class="w-100 d-flex gap-2 px-4">
 					<input type="hidden" name="id" id="idTarifaHidden" />
-
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-					<button type="submit" class="btn btn-danger">Eliminar</button>
+					<button type="button" class="btn btn-light border flex-grow-1" data-bs-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-danger flex-grow-1">Si, Eliminar</button>
 				</form>
 			</div>
 		</div>

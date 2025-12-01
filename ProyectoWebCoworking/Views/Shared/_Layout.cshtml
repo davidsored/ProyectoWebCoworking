@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProyectoWebCoworking.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -73,13 +73,13 @@
             </div>
         </nav>
     </header>
-    <div class="container mb-5">
+    <div class="container flex-grow-1 pb-5">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="footer mt-auto py-5 bg-dark text-white" >
+    <footer class="footer mt-auto py-5 bg-dark text-white">
         <div class="container">
             <div class="row">
 

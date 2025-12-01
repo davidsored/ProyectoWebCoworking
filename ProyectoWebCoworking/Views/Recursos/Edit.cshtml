@@ -1,42 +1,57 @@
 ﻿@model ProyectoWebCoworking.Models.Recurso
 @{
 	ViewData["Title"] = "Editar Recurso";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Editar Recurso</h1>
-<hr />
+<div class="container mt-5 mb-5">
+	<div class="row justify-content-center">
+		<div class="col col-lg-6">
 
-<div class="row">
-	<div class=" col-md-6">
+			<div class="card shadow-lg border-0 rounded-lg">
 
-		<form asp-action="Edit" method="post">
+				<div class=" card-header bg-warning text-white py-3 px-4">
+					<div class="d-flex align-items-center">
+						<i class="bi bi-building-add display-6 me-3"></i>
+						<div>
+							<h4 class="mb-0 fw-bold">Editar Recurso</h4>
+							<p class="mb-0 small text-white-50">Modifica los datos del recurso</p>
+						</div>
+					</div>
+				</div>
 
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+				<div class="card-body p-4">
+					<form asp-action="Edit" method="post">
+						<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-			<input type="hidden" asp-for="Id" />
+						<input type="hidden" asp-for="Id" />
 
-			<div class="mb-3">
-				<label asp-for="Nombre" class="form-label"></label>
-				<input asp-for="Nombre" class="form-control" />
-				<span asp-validation-for="Nombre" class="text-danger"></span>
+						<div class="form-floating mb-3">
+							<input asp-for="Nombre" class="form-control" placeholder="Nombre del recurso" />
+							<label asp-for="Nombre">Nombre del Recurso</label>
+							<span asp-validation-for="Nombre" class="text-danger"></span>
+						</div>
+						<div class="form-floating mb-3">
+							<input asp-for="Tipo" class="form-control" placeholder="Tipo" />
+							<label asp-for="Tipo">Tipo (ej. Sala, Puesto)</label>
+							<span asp-validation-for="Tipo" class="text-danger"></span>
+						</div>
+
+						<div class="form-floating mb-3">
+							<input asp-for="Capacidad" class="form-control" type="number" placeholder="Capacidad" min="1" />
+							<label asp-for="Capacidad">Capacidad (personas)</label>
+							<span asp-validation-for="Capacidad" class="text-danger"></span>
+						</div>
+
+						<div class="d-flex justify-content-end gap-2">
+							<a asp-action="Index" class="btn btn-outline-secondary px-4">Cancelar</a>
+							<button type="submit" class="btn btn-warning px-4">
+								<i class="bi bi-save me-1"></i> Guardar Cambios
+							</button>
+						</div>
+					</form>
+				</div>
 			</div>
-
-			<div class="mb-3">
-				<label asp-for="Tipo" class="form-label"></label>
-				<input asp-for="Tipo" class="form-control" placeholder="Ej: Sala, Puesto Fijo..." />
-				<span asp-validation-for="Tipo" class="text-danger"></span>
-			</div>
-
-			<div class="mb-3">
-				<label asp-for="Capacidad" class="form-label"></label>
-				<input asp-for="Capacidad" class="form-control" type="number" />
-				<span asp-validation-for="Capacidad" class="text-danger"></span>
-			</div>
-
-			<div class="form-group">
-				<button type="submit" class="btn btn-primary">Guardar Cambios</button>
-				<a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-			</div>
-		</form>
+		</div>
 	</div>
 </div>
