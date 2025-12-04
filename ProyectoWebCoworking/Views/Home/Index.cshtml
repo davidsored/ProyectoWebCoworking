@@ -4,49 +4,147 @@
 
 <div class="hero-section mb-5">
     <div class="hero-overlay"></div>
-    <div class="hero-content container">
-        <h1 class="display-3 fw-bold">Tu Espacio de Trabajo Ideal</h1>
-        <p class="lead mb-4">Concéntrate, colabora, crece en el mejor ambiente profesional</p>
-        <a asp-controller="Home" asp-action="Catalogo" class="btn btn-primary btn-lg px-5">Ver Espacios y Reservar</a>
+    <div class="hero-content container text-center text-white">
+        <h1 class="display-3 fw-bold mb-3">Tu lugar para crear y crecer</h1>
+        <p class="lead mb-4 fs-4">El espacio de trabajo flexible diseñado para profesionales, freelance y equipos en el corazón de la ciudad.</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a asp-controller="Home" asp-action="Catalogo" class="btn btn-primary btn-lg px-5 shadow">Ver Tarifas y Espacios</a>
+            <a href="#servicios" class="btn btn-light btn-lg px-5 text-primary fw-bold">Conócenos</a>
+        </div>
     </div>
 </div>
 
-<div class="container">
+<div class="container mb-5 text-center" style="max-width: 800px;">
+    <h2 class="fw-bold text-primary mb-3">Más que una oficina</h2>
+    <p class="text-muted fs-5">
+        En <strong>ProyectoWebCoworking</strong> nos ocupamos de todo para que tú solo tengas que preocuparte de trabajar.
+        Olvídate de facturas de luz, internet o limpieza. Aquí tienes todo incluido en una sola cuota.
+    </p>
+</div>
 
-    <div class="row text-center mb-5">
-        <div class="col-md-4 mb-4">
-            <div class="text-primary mb-3">
-                <i class="h5 bi-wifi display-4"></i>
-            </div>
-            <h3 class="h5">Alta velocidad</h3>
-            <p class="text-muted">Internet de fibra óptica para que nunca te desconectes.</p>
+<div id="servicios" class="bg-light py-5 mb-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Servicios Premium Incluidos</h2>
+            <p class="text-muted">Todo lo que necesitas para tu día a día, sin costes extra.</p>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="text-primary mb-3">
-                <i class="h5 bi-cup-hot-fill display-4"></i>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 service-card bg-white py-4 text-center">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary">
+                        <i class="bi bi-wifi fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold">Fibra 1Gbps</h5>
+                    <p class="text-muted small px-3">Conexión de alta velocidad a través de WiFi o cableado.</p>
+                </div>
             </div>
-            <h3 class="h5">Café ilimitado</h3>
-            <p class="text-muted">Zona de descanso con café y té gratuito para nuestros miembros.</p>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 service-card bg-white py-4 text-center">
+                    <div class="icon-box bg-success bg-opacity-10 text-success">
+                        <i class="bi bi-cup-hot-fill fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold">Café & Té Gratis</h5>
+                    <p class="text-muted small px-3">Zona de descanso con café y té gratuito para nuestros miembros.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 service-card bg-white py-4 text-center">
+                    <div class="icon-box bg-warning bg-opacity-10 text-warning">
+                        <i class="bi bi-shield-lock-fill fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold">Acceso 24/7</h5>
+                    <p class="text-muted small px-3">Control de acceso seguro y videovigilancia.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 service-card bg-white py-4 text-center">
+                    <div class="icon-box bg-info bg-opacity-10 text-info">
+                        <i class="bi bi-printer-fill fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold">Impresión</h5>
+                    <p class="text-muted small px-3">Impresora, escáner y proyector incluidos.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 service-card bg-white py-4 text-center">
+                    <div class="icon-box bg-danger bg-opacity-10 text-danger">
+                        <i class="bi bi-shop fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold">Restaurantes</h5>
+                    <p class="text-muted small px-3">Ubicación con gran oferta gastronómica cercana.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 service-card bg-white py-4 text-center">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary">
+                        <i class="bi bi-stars fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold">Limpieza Diaria</h5>
+                    <p class="text-muted small px-3">Espacios desinfectados y limpios cada día.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 service-card bg-white py-4 text-center">
+                    <div class="icon-box bg-dark bg-opacity-10 text-dark">
+                        <i class="bi bi-mailbox2 fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold">Paquetería</h5>
+                    <p class="text-muted small px-3">Recepción de correo y paquetes en horario comercial.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 service-card bg-white py-4 text-center">
+                    <div class="icon-box bg-danger bg-opacity-10 text-danger">
+                        <i class="bi bi-balloon-heart-fill fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold">Guardería</h5>
+                    <p class="text-muted small px-3">Servicio de ludoteca disponible para la conciliación.</p>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="text-primary mb-3">
-                <i class="h5 bi-shield-lock-fill display-4"></i>
-            </div>
-            <h3 class="h5">Acceso seguro</h3>
-            <p class="text-muted">Tu propio espacio con seguridad y acceso controlado.</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Encuentra tu sitio</h2>
+    </div>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6 order-md-2">
+            <img src="~/images/PuestosFijos.jpg" class="img-fluid rounded-3 shadow" alt="Zona de trabajo" />
+        </div>
+        <div class="col-md-6 order-md-1 pe-md-5">
+            <h3 class="fw-bold text-primary">Puestos Fijos y Flexibles</h3>
+            <p class="lead text-muted">Ideal para freelancers y trabajadores en remoto.</p>
+            <p>Elige tu mesa, conecta tu portátil y empieza a trabajar. Disfruta de luz natural, sillas ergonómicas y el mejor ambiente para concentrarte.</p>
+            <ul class="list-unstyled mt-3">
+                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Mobiliario ergonómico</li>
+                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Cajonera con llave (Fijos)</li>
+            </ul>
+            <a asp-controller="Home" asp-action="Catalogo" class="btn btn-outline-primary mt-2">Ver Precios</a>
         </div>
     </div>
 
-    <hr class="my-5" />
-
     <div class="row align-items-center">
         <div class="col-md-6">
-            <h2>¿Buscas un despacho privado o un puesto flexible?</h2>
-            <a class="lead text-muted">Tenemos tarifas adaptadas a tus necesidades, desde precios diarios hasta oficinas privadas mensuales.</a>
-            <a asp-controller="Home" asp-action="Catalogo" class="btn btn-outline-primary">Explorar Opciones</a>
+            <img src="~/images/reuniones.jpg" class="img-fluid rounded-3 shadow" alt="Sala de reuniones" />
         </div>
-        <div class="col-md-6">
-            <img src="~/images/reuniones.jpg" class="img-fluid rounded shadow" alt="Sala de reuniones" />
+        <div class="col-md-6 ps-md-5">
+            <h3 class="fw-bold text-primary">Salas de Reuniones</h3>
+            <p class="lead text-muted">Impresiona a tus clientes.</p>
+            <p>Salas equipadas con pantallas 4K, pizarra y sistema de videoconferencia. Disponibles por horas. Perfectas para presentaciones o brainstorming.</p>
+            <a asp-controller="Home" asp-action="Catalogo" class="btn btn-outline-primary mt-2">Reservar Sala</a>
         </div>
+    </div>
+</div>
+
+<div class="bg-primary text-white py-5 text-center rounded-3 mb-5">
+    <div class="container">
+        <h2 class="fw-bold">¿Listo para mejorar tu forma de trabajar?</h2>
+        <p class="lead mb-4">Ven a probar un día gratis y conoce a nuestra comunidad.</p>
+        <a asp-controller="Usuarios" asp-action="Registro" class="btn btn-light btn-lg text-primary fw-bold px-5">Crear Cuenta Gratis</a>
     </div>
 </div>

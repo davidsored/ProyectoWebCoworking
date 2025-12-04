@@ -1,70 +1,154 @@
 ﻿@model ProyectoWebCoworking.Models.Reserva
 @{
-	//Obtenemos el recurso que nos envía el controlador
-	var recurso = ViewData["Recurso"] as ProyectoWebCoworking.Models.Recurso;
-	ViewData["Title"] = $"Reservar: {recurso.Nombre}";
+    var recurso = ViewData["Recurso"] as ProyectoWebCoworking.Models.Recurso;
+    // Recuperamos el precio que enviamos desde el controlador
+    decimal precioHora = (decimal)ViewData["PrecioHora"];
+
+    ViewData["Title"] = $"Reservar: {recurso.Nombre}";
 }
 
 <div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
 
-	<div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4 mb-4 mb-md-0">
+            <div class="card shadow border-0 h-100 bg-light">
+                <div class="card-body p-4 text-center">
+                    <div class="mb-3 text-primary">
+                        <i class="bi bi-calendar-plus display-1"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">@recurso.Nombre</h3>
+                    <span class="badge bg-primary bg-opacity-10 text-primary mb-3">@recurso.Tipo</span>
+                    <h4 class="text-success mt-2">@precioHora.ToString("C")/hora</h4>
 
-		<div class="col-md-5 col-lg-4 mb-4 mb-md-0">
-			<div class="card shadow border-0 h-100 bg-light">
-				<div class="card-body p-4 text-center">
-					<div class="mb-3 text-primary">
-						<i class="bi bi-calendar-plus display-1"></i>
-					</div>
-					<h3 class="fw-bold mb-1">@recurso.Nombre</h3>
-					<span class="badge bg-primary bg-opacity-10 text-primary mb-3">@recurso.Tipo</span>
+                    <hr class="my-4" />
+                    <ul class="list-unstyled text-start mx-auto" style="max-width: 200px;">
+                        <li class="mb-2"><i class="bi bi-people me-2 text-muted"></i>Capacidad: <strong>@recurso.Capacidad</strong></li>
+                        <li class="mb-2"><i class="bi bi-wifi me-2 text-muted"></i>WiFi incluido</li>
+                        <li class="mb-2"><i class="bi bi-check-circle me-2 text-muted"></i>Confirmación inmediata</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-					<hr class="my-4" />
+        <div class="col-md-7 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
+                    <h4 class="fw-bold">Selecciona tus fechas</h4>
+                    <p class="text-muted small">Elige cuándo quieres empezar y terminar tu reserva.</p>
+                </div>
+                <div class="card-body p-4">
+                    <form id="formReserva" asp-action="CrearReserva" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 text-small mb-3"></div>
+                        <input type="hidden" asp-for="RecursoId" value="@recurso.Id" />
 
-					<ul class="list-unstyled text-start mx-auto" style="max-width: 200px;">
-						<li class="mb-2"><i class="bi bi-people me-2 text-muted"></i>Capacidad: <strong>@recurso.Capacidad</strong></li>
-						<li class="mb-2"><i class="bi bi-wifi me-2 text-muted"></i>Wifi incluido</li>
-						<li class="mb-2"><i class="bi bi-check-circle me-2 text-muted"></i>Confirmación inmediata</li>
-					</ul>
-				</div>
-			</div>
-		</div>
+                        <input type="hidden" id="precioHoraJs" value="@precioHora" />
 
-		<div class="col-md-7 col-lg-6">
-			<div class="card shadow border-0">
-				<div class="card-header bg-white border-0 pt-4 px-4 pb-0">
-					<h4 class="fw-bold">Selecciona tus fechas</h4>
-					<p class="text-muted small">Elige cuando quieres empezar y terminar tu reserva.</p>
-				</div>
-				<div class="card-body p-4">
-					<form asp-action="CrearReserva" method="post">
-						<div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 text-small mb-3"></div>
-						<input type="hidden" asp-for="RecursoId" value="@recurso.Id" />
+                        <div class="row g-2 mb-3">
+                            <div class="col-12">
+                                <label asp-for="FechaHoraInicio" class="form-label fw-bold small text-uppercase text-muted">Inicio</label>
+                                <input id="fechaInicio" asp-for="FechaHoraInicio" class="form-control form-control-lg" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+                                <span asp-validation-for="FechaHoraInicio" class="text-danger small"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="FechaHoraFin" class="form-label fw-bold small text-uppercase text-muted">Fin</label>
+                                <input id="fechaFin" asp-for="FechaHoraFin" class="form-control form-control-lg" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+                                <span asp-validation-for="FechaHoraFin" class="text-danger small"></span>
+                            </div>
+                        </div>
 
-						<div class="row g-2 mb-3">
-							<div class="col-12">
-								<label asp-for="FechaHoraInicio" class="form-label fw-bold small text-uppercase text-muted">Inicio</label>
-								<input asp-for="FechaHoraInicio" class="form-control form-control-lg" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" />
-								<span asp-validation-for="FechaHoraInicio" class="text-danger small"></span>
-							</div>
-							<div class="col-12">
-								<label asp-for="FechaHoraFin" class="form-label fw-bold small text-uppercase text-muted">Fin</label>
-								<input asp-for="FechaHoraFin" class="form-control form-control-lg" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" />
-								<span asp-validation-for="FechaHoraFin" class="text-danger small"></span>
-							</div>
-						</div>
+                        <div class="alert alert-info d-flex align-items-center small py-2">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <div>Revisa el precio final antes de confirmar.</div>
+                        </div>
 
-						<div class="alert alert-info d-flex align-items-center small -py-2">
-							<i class="bi bi-info-circle-fill me-2"></i>
-							<div>El precio final se calculará al confirmar.</div>
-						</div>
-
-						<div class="d-grid gap-2 mt-4">
-							<button type="submit" class="btn btn-primary btn-lg shadow-sm">Confirmar Reserva</button>
-							<a asp-controller="Home" asp-action="Catalogo" class="btn btn-link text-muted text-decoration-none">Cancelar y volver</a>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="button" class="btn btn-primary btn-lg shadow-sm" onclick="calcularYMostrarModal()">
+                                Ver Precio y Confirmar
+                            </button>
+                            <a asp-controller="Home" asp-action="Catalogo" class="btn btn-link text-muted text-decoration-none">Cancelar y volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="modal fade" id="modalConfirmarPrecio" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-receipt me-2"></i>Resumen de Reserva</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row mb-3">
+                    <div class="col-6 text-muted">Recurso:</div>
+                    <div class="col-6 fw-bold text-end">@recurso.Nombre</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6 text-muted">Duración:</div>
+                    <div class="col-6 fw-bold text-end"><span id="modalDuracion">0</span> horas</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6 text-muted">Tarifa:</div>
+                    <div class="col-6 fw-bold text-end">@precioHora.ToString("C")/h</div>
+                </div>
+                <hr />
+                <div class="row align-items-center">
+                    <div class="col-6 fs-5">Total a Pagar:</div>
+                    <div class="col-6 fw-bold text-end text-success fs-3" id="modalTotal">0,00 €</div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light border-0">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Volver</button>
+                <button type="button" class="btn btn-success px-4" onclick="enviarFormulario()">
+                    <i class="bi bi-check-lg me-1"></i> Confirmar Reserva
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function calcularYMostrarModal() {
+            
+            var inicioVal = document.getElementById('fechaInicio').value;
+            var finVal = document.getElementById('fechaFin').value;
+            var precioHoraStr = document.getElementById('precioHoraJs').value;
+
+            if (!inicioVal || !finVal) {
+                alert("Por favor, selecciona las fechas de inicio y fin.");
+                return;
+            }
+
+            var inicio = new Date(inicioVal);
+            var fin = new Date(finVal);
+
+            var diffMs = fin - inicio; 
+            var diffHoras = diffMs / (1000 * 60 * 60);
+
+            if (diffHoras <= 0) {
+                alert("La fecha de fin debe ser posterior a la de inicio.");
+                return;
+            }
+
+            var precioHora = parseFloat(precioHoraStr.replace(',', '.'));
+            var total = diffHoras * precioHora;
+
+            document.getElementById('modalDuracion').innerText = diffHoras.toFixed(2);
+
+            var totalFormateado = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(total);
+            document.getElementById('modalTotal').innerText = totalFormateado;
+
+            var myModal = new bootstrap.Modal(document.getElementById('modalConfirmarPrecio'));
+            myModal.show();
+        }
+
+        function enviarFormulario() 
+        {
+            document.getElementById('formReserva').submit();
+        }
+    </script>
+}

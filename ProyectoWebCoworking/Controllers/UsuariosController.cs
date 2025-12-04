@@ -30,10 +30,13 @@ namespace ProyectoWebCoworking.Controllers
 
         //El método Post de utiliza para recibir los datos del formulario de registro
         [HttpPost]
-        public IActionResult Registro([Bind("Nombre", "Email", "Password", "Teléfono")] Usuario usuario)
+        public IActionResult Registro([Bind("Nombre", "Apellidos", "Email", "Password", "Teléfono")] Usuario usuario)
         {
             ModelState.Remove("Rol");
             ModelState.Remove("ContraseñaHash");
+            ModelState.Remove("PasswordActual");
+            ModelState.Remove("NuevaPassword");
+            ModelState.Remove("ConfirmarPassword");
 
 
             if (ModelState.IsValid)

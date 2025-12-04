@@ -20,6 +20,17 @@ namespace ProyectoWebCoworking.Controllers
 
         public IActionResult Index()
         {
+            var reservasVencidas = _context.Reservas.Where(r => r.Estado == "Confirmada" && r.FechaHoraFin < DateTime.Now).ToList();
+
+            if (reservasVencidas.Any()) 
+            {
+                foreach (var reserva in reservasVencidas)
+                {
+                    reserva.Estado = "Finalizada";
+                }
+                _context.SaveChanges();
+            }
+
             //Unimos las tablas para ver los nombres y los Ids
             var listaReservas = _context.Reservas.Include(r => r.Usuario).Include(r => r.Recurso).ToList();
             

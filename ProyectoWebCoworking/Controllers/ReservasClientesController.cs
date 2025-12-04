@@ -35,6 +35,17 @@ namespace ProyectoWebCoworking.Controllers
 
             int usuarioId = int.Parse(usuarioIdString);
 
+            var reservasVencidas = _context.Reservas.Where(r => r.Usuario.Id == usuarioId && r.Estado == "Confirmada" && r.FechaHoraFin < DateTime.Now).ToList();
+
+            if (reservasVencidas.Any())
+            {
+                foreach (var reserva in reservasVencidas)
+                {
+                    reserva.Estado = "Finalizada";
+                }
+                _context.SaveChanges();
+            }
+
             //Buscamos las reservas de ese usuaio con el recuro, la tarifa y ordenado por la hora de inicio
             var misReservas = _context.Reservas.Where(r => r.UsuarioId == usuarioId).Include(r => r.Recurso).Include(r => r.Tarifa).OrderByDescending(r => r.FechaHoraInicio).ToList();
 
@@ -59,8 +70,12 @@ namespace ProyectoWebCoworking.Controllers
                 return NotFound();            
             }
 
+            var tarifa = _context.Tarifas.FirstOrDefault(t => t.TipoRecurso == recurso.Tipo);
+            decimal precioHora = tarifa != null ? tarifa.Precio : 0;
+
             //Pasamos el recurso utilizando ViewData y creamos una reserva vacía para que la utilice el formulario.
             ViewData["Recurso"] = recurso;
+            ViewData["PrecioHora"] = precioHora;
 
             DateTime ahora = DateTime.Now;
             DateTime inicio = new DateTime(ahora.Year, ahora.Month, ahora.Day, ahora.Hour, ahora.Minute, 0);
@@ -122,12 +137,33 @@ namespace ProyectoWebCoworking.Controllers
                     ModelState.AddModelError("FechaHoraFin", "La fecha de fin debe ser posterior a la fecha de inicio.");
                 }
 
-                //Comprobamos el solapamiento en la base de datos
-                bool existeSolapamiento = _context.Reservas.Any(r => r.RecursoId == reserva.RecursoId && r.Estado != "Cancelada" && r.FechaHoraInicio < reserva.FechaHoraFin && r.FechaHoraFin > reserva.FechaHoraInicio);
+                string tipoDeseado = recurso.Tipo;
 
-                if(existeSolapamiento)
+                var recursosCandidatos = _context.Recursos.Where(r => r.Tipo == tipoDeseado).ToList();
+
+                int? recursoLibreId = null;
+
+                foreach (var candidato in recursosCandidatos)
+                {
+                    bool estaOcupado = _context.Reservas.Any(r => r.RecursoId == candidato.Id && r.Estado != "Cancelada" && r.FechaHoraInicio < reserva.FechaHoraFin && r.FechaHoraFin > reserva.FechaHoraInicio);
+
+                    if (!estaOcupado)
+                    {
+                        recursoLibreId = candidato.Id;
+                        break;
+                    }
+                }
+
+                if (recursoLibreId != null)
+                {
+                    reserva.RecursoId = recursoLibreId.Value;
+                }
+                else
                 {
                     ModelState.AddModelError(string.Empty, "Lo sentimos, este recurso ya está reservado en este horario");
+
+                    ViewData["Recurso"] = recurso;
+                    return View(reserva);
                 }
                 
                 if (ModelState.IsValid)
@@ -142,7 +178,7 @@ namespace ProyectoWebCoworking.Controllers
 
                     string asunto = $"Confirmación de Reserva - {recurso.Nombre}";
                     string mensaje = $@"Hola, Tu reserva ha sido confirmada con éxito.
-                                        Recurso: {recurso.Nombre}
+                                        Recurso Asignado: {recurso.Nombre} (ID: {reserva.RecursoId})
                                         Fecha Inicio: {reserva.FechaHoraInicio}
                                         Fecha Fin: {reserva.FechaHoraFin}
                                         Precio: {tarifa.Precio} €/hora

@@ -61,7 +61,7 @@ namespace ProyectoWebCoworking.Controllers
         [AllowAnonymous] //Con esta etiqueta nos aseguramos que todos puedan ver los datos.
         public IActionResult Catalogo()
         {
-            var listaRecursos = _context.Recursos.ToList();
+            var listaRecursos = _context.Recursos.AsEnumerable().GroupBy(r => r.Tipo).Select(g => g.First()).ToList();
 
             return View(listaRecursos);
         }
