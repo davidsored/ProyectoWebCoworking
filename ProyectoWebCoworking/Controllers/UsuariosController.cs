@@ -25,7 +25,7 @@ namespace ProyectoWebCoworking.Controllers
         [HttpGet]
         public IActionResult Registro()
         {
-            return View(); //Se buscará un archivo en Views/Usuarios/Registro.cshtml
+            return View();
         }
 
         //El método Post de utiliza para recibir los datos del formulario de registro
@@ -160,6 +160,7 @@ namespace ProyectoWebCoworking.Controllers
             }
 
             ModelState.Remove("Nombre");
+            ModelState.Remove("Apellidos");
             ModelState.Remove("Email");
             ModelState.Remove("ContraseñaHash");
             ModelState.Remove("Password");
@@ -190,6 +191,13 @@ namespace ProyectoWebCoworking.Controllers
             var usuario = _context.Usuarios.Find(id);
             if (usuario != null) 
             {
+                var reservasUsuario = _context.Reservas.Where(r => r.UsuarioId == id).ToList();
+
+                if (reservasUsuario.Any())
+                {
+                    _context.Reservas.RemoveRange(reservasUsuario);
+                }
+
                 _context.Usuarios.Remove(usuario);
                 _context.SaveChanges();
             }

@@ -112,10 +112,11 @@
 
 @section Scripts {
     <script>
-        function calcularYMostrarModal() {
+        async function calcularYMostrarModal() {
             
             var inicioVal = document.getElementById('fechaInicio').value;
             var finVal = document.getElementById('fechaFin').value;
+			var recursoId = document.getElementById('RecursoId').value;
             var precioHoraStr = document.getElementById('precioHoraJs').value;
 
             if (!inicioVal || !finVal) {
@@ -125,6 +126,29 @@
 
             var inicio = new Date(inicioVal);
             var fin = new Date(finVal);
+
+            if (inicio >= fin) {
+                alert("La fecha de fin debe ser posterior a la de inicio.");
+                return;
+            }
+
+            try {
+                var url = `/ReservasClientes/ComprobarDisponibilidad?recursoId=${recursoId}&inicio=${inicioVal}&fin=${finVal}`;
+
+                var response = await fetch(url);
+                var estaDisponible = await response.json();
+
+                if (estaDisponible === false) {
+                    alert("Lo sentimos, no quedan recursos de este tipo disponibles para ese horario.");
+                    return;
+                }
+            }
+            catch (error) {
+                console.error("Error al comprobar la disponibilidad:", error);
+                alert("Hubo un error técnico al verificar la disponibilidad. Por favor, inténtalo de nuevo.");
+                return;
+            }
+
 
             var diffMs = fin - inicio; 
             var diffHoras = diffMs / (1000 * 60 * 60);

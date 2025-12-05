@@ -16,7 +16,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.AccessDeniedPath = "/Home/AccessDenied";
 });
 
-builder.Services.AddTransient<IEmailService, FakeEmailService>();
+builder.Services.AddTransient<IEmailService, GmailEmailService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

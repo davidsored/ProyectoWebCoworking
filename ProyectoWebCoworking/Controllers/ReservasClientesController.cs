@@ -167,9 +167,7 @@ namespace ProyectoWebCoworking.Controllers
                 }
                 
                 if (ModelState.IsValid)
-                {
-                    //Aquí va la lógica de "Comprobar disponibilidad"
-                    
+                {                    
                     _context.Reservas.Add(reserva);
                     _context.SaveChanges();
 
@@ -240,6 +238,32 @@ namespace ProyectoWebCoworking.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        #endregion
+
+        #region Disponibilidad
+
+        [HttpGet]
+        public IActionResult ComprobarDisponibilidad(int recursoId, DateTime inicio, DateTime fin)
+        {
+            var recursoPrototipo = _context.Recursos.Find(recursoId);
+            if (recursoPrototipo == null)
+            {
+                return Json(false);
+            }
+
+            var recursosCandidatos = _context.Recursos.Where(r => r.Tipo == recursoPrototipo.Tipo).ToList();
+
+            foreach (var candidato in recursosCandidatos)
+            {
+                bool estaOcupado = _context.Reservas.Any(r => r.RecursoId == candidato.Id && r.Estado != "Cancelada" && r.FechaHoraInicio < fin && r.FechaHoraFin > inicio);
+                if (!estaOcupado)
+                {
+                    return Json(true);
+                }
+            }
+            return Json(false);
         }
 
         #endregion

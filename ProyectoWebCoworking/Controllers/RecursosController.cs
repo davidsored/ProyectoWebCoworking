@@ -125,16 +125,30 @@ namespace ProyectoWebCoworking.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        //Llamamos DeleteConfirmed al método para que no entre en conflicto con el método Get
+        //Llamamos DeleteConfirmado al método para que no entre en conflicto con el método Get
         public IActionResult DeleteConfirmado(int id)
         {
             //Buscamos el recurso y si existe, se borra
             var recurso = _context.Recursos.Find(id);
-            if (recurso != null)
+
+            if (recurso == null)
             {
-                _context.Recursos.Remove(recurso);
-                _context.SaveChanges();
+                return NotFound();
             }
+
+            bool tieneReservas = _context.Reservas.Any(r => r.RecursoId == id);
+
+            if (tieneReservas)
+            {
+                TempData["MensajeError"] = $"No se puede eliminar el recurso '{recurso.Nombre}' porque tiene reservas asociadas. Cancela las reservas primero.";
+                
+                return RedirectToAction(nameof(Index));
+            }
+
+            _context.Recursos.Remove(recurso);
+            _context.SaveChanges();
+
+            TempData["MensajeExito"] = "Recurso eliminado correctamente.";
 
             return RedirectToAction(nameof(Index));
         }

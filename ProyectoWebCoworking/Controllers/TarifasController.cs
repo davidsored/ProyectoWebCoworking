@@ -119,14 +119,27 @@ namespace ProyectoWebCoworking.Controllers
         {
             var tarifa = _context.Tarifas.Find(id);
 
-            if (tarifa != null) 
+            if (tarifa == null)
             {
-                _context.Tarifas.Remove(tarifa);
-                _context.SaveChanges();
+                return NotFound();
             }
 
+            bool tieneReserva = _context.Reservas.Any(r => r.TarifaId == id);
+
+            if (tieneReserva)
+            {
+                TempData["MensajeError"] = $"No se puede eliminar la tarifa '{tarifa.Nombre}' porque tiene reservas asociadas. Cancela las reservas primero.";
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            _context.Tarifas.Remove(tarifa);
+            _context.SaveChanges();
+
+            TempData["MensajeExito"] = "Tarifa eliminada correctamente.";          
+
             return RedirectToAction(nameof(Index));
-        }
+        }      
 
         #endregion
     }
