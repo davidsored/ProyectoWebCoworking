@@ -21,7 +21,7 @@ Es una aplicación web completa para la gestión integral de un espacio de Cowor
 ## 📸 Capturas de Pantalla
 | Home Page | Panel Admin |
 |-----------|-------------|
-| ![Home](images/home.pgn) | ![Admin](images/panel-admin.png) |
+| ![Home](images/home.png) | ![Admin](images/panel-admin.png) |
 
 | Catálogo | Reservas |
 |----------|----------|
