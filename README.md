@@ -94,16 +94,24 @@ También puede abrirse la solución `ProyectoWebCoworking.sln` en Visual Studio 
 
 ## ⚙️ Configuración
 
-La aplicación lee su configuración de `appsettings.json`:
+La aplicación lee su configuración del sistema estándar de ASP.NET Core. `appsettings.json` define la estructura de claves con los valores sensibles **vacíos a propósito** — las credenciales reales nunca se escriben en el repositorio:
 
 * `ConnectionStrings:DefaultConnection` — cadena de conexión a MySQL (servidor, puerto, base de datos `coworking_db`, credenciales).
 * `EmailSettings` — remitente, contraseña de aplicación, host y puerto SMTP para los correos de confirmación.
 
-En desarrollo se recomienda no escribir credenciales reales en `appsettings.json` y usar en su lugar [user secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets) (el proyecto ya tiene `UserSecretsId` configurado):
+En desarrollo, rellenar los valores con [user secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets) (el proyecto ya tiene `UserSecretsId` configurado):
 
 ```bash
-dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=...;Database=coworking_db;User=...;Password=..."
+cd ProyectoWebCoworking
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=127.0.0.1;Port=3306;Database=coworking_db;User=...;Password=..."
 dotnet user-secrets set "EmailSettings:PasswordAplicacion" "..."
+```
+
+En producción, definir las variables de entorno equivalentes (el host de ASP.NET Core las mapea automáticamente):
+
+```bash
+ConnectionStrings__DefaultConnection="Server=...;Database=coworking_db;User=...;Password=..."
+EmailSettings__PasswordAplicacion="..."
 ```
 
 ## 💡 Decisiones técnicas relevantes
@@ -120,7 +128,7 @@ Diseñar un modelo de disponibilidad y solapes es más delicado de lo que parece
 ## 🗺️ Roadmap
 
 - [ ] Desplegar una demo pública (pendiente de resolver hosting con MySQL).
-- [ ] Externalizar la configuración sensible de `appsettings.json` a user secrets / variables de entorno.
+- [x] Externalizar la configuración sensible de `appsettings.json` a user secrets / variables de entorno.
 - [ ] Extraer la lógica de negocio de los controladores a una capa de servicios dedicada.
 - [ ] Añadir tests automatizados de la lógica de reservas (solapes y cálculo de tarifas).
 
